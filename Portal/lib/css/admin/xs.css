@@ -1,0 +1,24 @@
+﻿/* Levo 2 ----------*/
+.wrappers
+{
+	margin-left: 0;
+	margin-right: 0;
+}
+
+/* Bootstrap -------*/
+
+
+
+
+/* Jquery UI ------ */
+#tabs1 > ul > li
+{
+	width: 100%;
+}
+#tabs1 > ul > li > a
+{
+	width: 100%;
+}
+
+
+

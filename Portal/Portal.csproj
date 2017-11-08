@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{D532AC87-CCCB-4C4A-9EF7-65B0553353FD}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Portal</RootNamespace>
+    <AssemblyName>Portal</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Global.asax" />
+    <Content Include="index.html" />
+    <Content Include="lib\css\admin\default.css" />
+    <Content Include="lib\css\admin\lg.css" />
+    <Content Include="lib\css\admin\md.css" />
+    <Content Include="lib\css\admin\sm.css" />
+    <Content Include="lib\css\admin\xs.css" />
+    <Content Include="lib\icons\favicon.ico" />
+    <Content Include="lib\icons\line.gif" />
+    <Content Include="lib\icons\logo\AA_logo180X169.png" />
+    <Content Include="lib\icons\logo\AA_logo50X47.png" />
+    <Content Include="lib\icons\logo\AA_logo80X75.png" />
+    <Content Include="lib\icons\portal_login.png" />
+    <Content Include="lib\icons\smaal_ajax-loader.gif" />
+    <Content Include="lib\icons\sort.png" />
+    <Content Include="lib\icons\sort_asc.png" />
+    <Content Include="lib\icons\sort_desc.png" />
+    <Content Include="lib\icons\spiker.png" />
+    <Content Include="lib\js\jquery-3.1.1.min.js" />
+    <Content Include="lib\js\jquery.maskedinput.js" />
+    <Content Include="lib\js\jquery.scrollTo.min.js" />
+    <Content Include="lib\js\jquery_ui_langs.js" />
+    <Content Include="lib\js\levo2-functionlib.js" />
+    <Content Include="lib\js\levo2-validation.js" />
+    <Content Include="lib\js\moment-with-langs.min.js" />
+    <Content Include="lib\languages\default.js" />
+    <Content Include="lib\plugins\bootstrap\css\bootstrap-social.css" />
+    <Content Include="lib\plugins\bootstrap\css\bootstrap.min.css" />
+    <Content Include="lib\plugins\bootstrap\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="lib\plugins\bootstrap\js\bootstrap.min.js" />
+    <Content Include="lib\plugins\color-picker\spectrum.css" />
+    <Content Include="lib\plugins\color-picker\spectrum.js" />
+    <Content Include="lib\plugins\flick\images\ui-icons_444444_256x240.png" />
+    <Content Include="lib\plugins\flick\images\ui-icons_454545_256x240.png" />
+    <Content Include="lib\plugins\flick\images\ui-icons_555555_256x240.png" />
+    <Content Include="lib\plugins\flick\images\ui-icons_777620_256x240.png" />
+    <Content Include="lib\plugins\flick\images\ui-icons_777777_256x240.png" />
+    <Content Include="lib\plugins\flick\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="lib\plugins\flick\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="lib\plugins\flick\jquery-ui.min.css" />
+    <Content Include="lib\plugins\flick\jquery-ui.min.js" />
+    <Content Include="lib\plugins\font-awesome\css\font-awesome.min.css" />
+    <Content Include="lib\plugins\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="lib\plugins\glyphicons\css\glyphicons.css" />
+    <Content Include="lib\plugins\glyphicons\fonts\glyphicons-regular.svg" />
+    <Content Include="lib\plugins\highchart\highcharts.js" />
+    <Content Include="lib\plugins\jquerymenu\css\jquery.mmenu.all.css" />
+    <Content Include="lib\plugins\jquerymenu\js\jquery.mmenu.all.min.js" />
+    <Content Include="lib\plugins\levo2fonts\demo.html" />
+    <Content Include="lib\plugins\levo2fonts\fonts\levo2.svg" />
+    <Content Include="lib\plugins\levo2fonts\levo2fontstyle.css" />
+    <Content Include="lib\plugins\levo2fonts\style.css" />
+    <Content Include="lib\plugins\numeral\languages.min.js" />
+    <Content Include="lib\plugins\numeral\numeral.min.js" />
+    <Content Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+    <Content Include="lib\plugins\bootstrap\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="lib\plugins\bootstrap\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="lib\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="lib\plugins\bootstrap\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="lib\plugins\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="lib\plugins\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="lib\plugins\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="lib\plugins\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="lib\plugins\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="lib\plugins\glyphicons\fonts\glyphicons-regular.eot" />
+    <Content Include="lib\plugins\glyphicons\fonts\glyphicons-regular.ttf" />
+    <Content Include="lib\plugins\glyphicons\fonts\glyphicons-regular.woff" />
+    <Content Include="lib\plugins\glyphicons\fonts\glyphicons-regular.woff2" />
+    <Content Include="lib\plugins\levo2fonts\fonts\levo2.eot" />
+    <Content Include="lib\plugins\levo2fonts\fonts\levo2.ttf" />
+    <Content Include="lib\plugins\levo2fonts\fonts\levo2.woff" />
+    <Content Include="lib\languages\index-lang.json" />
+    <Content Include="lib\validation\index-val.json" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="admin\" />
+    <Folder Include="App_Data\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="functions\" />
+    <Folder Include="Models\" />
+    <Folder Include="Portal\" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>56331</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:56331/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -1,0 +1,25 @@
+﻿{
+  "Username": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "maxlength": "30",
+    "minlength": "3",
+    "class": "validate validate-userpass",
+    "datatype": "string"
+  },
+  "Password": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "maxlength": "30",
+    "minlength": "3",
+    "class": "validate validate-userpass",
+    "datatype": "string"
+  },
+  "Email": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "maxlength": "100",
+    "class": "validate validate-email forcelowercase",
+    "datatype": "string"
+  }
+}

@@ -1,0 +1,57 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "signinInfo": [ "id", "text", "Enter your username and password." ] },
+      { "Username": [ "id", "placeholder", "Username" ] },
+      { "Password": [ "id", "placeholder", "Password" ] },
+      { "txtrememberMe": [ "id", "text", "Remember me" ] },
+      { "cmdSignIn": [ "id", "htmlembedded", "Sign In" ] },
+      { "cmdForgotUP": [ "id", "text", "Forgot U/P?" ] },
+      { "cmdLanguage": [ "id", "text", "Language" ] },
+      { "forgotUPInfo": [ "text", "Enter your email address." ] },
+      { "Email": [ "id", "placeholder", "Email" ] },
+      { "cmdUsernamePassword": [ "id", "text", "Send" ] },
+      { "cmdReturnToSignIn": [ "id", "text", "Sign In" ] },
+      { "rememberMe": [ "id", "text", "remember Me" ] }
+    ],
+    "nb-NO": [
+      { "signinInfo": [ "id", "text", "Skriv inn ditt brukernavn og passord." ] },
+      { "Username": [ "id", "placeholder", "Brukernavn" ] },
+      { "Password": [ "id", "placeholder", "Passord" ] },
+      { "txtrememberMe": [ "id", "text", "Husk meg" ] },
+      { "cmdSignIn": [ "id", "htmlembedded", "Logg Inn" ] },
+      { "cmdForgotUP": [ "id", "text", "Glemt B/P?" ] },
+      { "cmdLanguage": [ "id", "text", "Språk" ] },
+      { "forgotUPInfo": [ "text", "Skriv inn din e-post adresse." ] },
+      { "rememberMe": [ "id", "text", "Husk Meg" ] },
+      { "Email": [ "id", "placeholder", "E-post" ] },
+      { "cmdUsernamePassword": [ "id", "text", "Send" ] },
+      { "cmdReturnToSignIn": [ "id", "text", "Logg Inn" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "signinDefaultMessage": "Enter your username and password.",
+      "UsernameSubmitError": "Please enter your username.",
+      "PasswordSubmitError": "Please enter your password.",
+      "signinErrorWrongUsernamePassword": "Incorrect username, password or your account is deactivated.",
+      "EmailSubmitError": "Email address is empty or contains invalid characters.",
+
+      "userpassErrorNoUser": "There is not registered a user with this email address.",
+      "userpassEmailOk": "Your username and password was sent to your email address."
+
+
+    },
+    "nb-NO": {
+      "signinDefaultMessage": "Skriv inn ditt brukernavn og passord.",
+      "UsernameSubmitError": "Vennligst skriv inn ditt brukernavn.",
+      "PasswordSubmitError": "Vennligst skriv inn ditt passord.",
+      "signinErrorWrongUsernamePassword": "Feil brukernavn, passord eller domene eller din konto er deaktivert.",
+      "EmailSubmitError": "Email address is empty or contains invalid characters.",
+
+      "userpassErrorNoUser": "Det er ikke registrert noen bruker med denne e-post adressen.",
+      "userpassEmailOk": "Ditt brukernavn og passord ble sendt til din e-post adresse."
+
+    }
+      }
+    }

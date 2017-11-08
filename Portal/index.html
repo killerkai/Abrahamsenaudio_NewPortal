@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=windows-1252" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title>LOGIN - PORTAL - ABRAHAMSEN AUDIO</title>
+    <script type="text/javascript" src="/lib/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/js/levo2-functionlib.js"></script>
+    <script type="text/javascript" src="/lib/js/levo2-validation.js"></script>
+    <script type="text/javascript" src="/lib/languages/default.js"></script>
+    <script type="text/javascript" src="/lib/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="shortcut icon" href="/lib/icons/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/lib/icons/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/flick/jquery-ui.min.css">
+
+    <script type="text/javascript">
+<!--
+    var ThisPage = "signin";
+    var AppName = "Abrahamsen Audio Portal"
+    var AppVersion = ".1.1.0";
+    var AppVersionCode = ".A.A.P";
+    var ThisLanguage = "en-US";
+    var LanguagePage = "/lib/languages/index-lang.json";
+    var ValidationPage = "/lib/validation/index-val.json";
+    var ThisLocation = location.hostname;
+$(document).ready(function()
+{
+    ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+    $(window).resize(function()
+    {
+        ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+        if ($('#background').is(':visible'))
+        {
+            hideLoadboxAndBackground();
+            showLoadboxAndBackground();
+        }
+    });
+
+
+    $(".reveal").on('click', function ()
+    {
+        var $pwd = $(".pwd");
+        if ($pwd.attr('type') === 'password')
+        {
+            $pwd.attr('type', 'text');
+        } else
+        {
+            $pwd.attr('type', 'password');
+        }
+    });
+
+    setNonLanguage();
+    getContentData();
+});
+
+function getContentData()
+{
+    setLanguageCookie(ThisLanguage, function(Response)
+    {
+        if (Response != "")
+        {
+            setContentData(Response);
+        }
+        else
+        {
+            setContentData(ThisLanguage);
+        }
+    });
+
+    function setContentData(_SelectedLanguage)
+    {
+        ThisLanguage = _SelectedLanguage;
+        setDefaultLanguage(ThisLanguage);
+        getLanguage(LanguagePage, function(Response)
+        {
+            if (Response == 200)
+            {
+                setPageLanguage(ThisLanguage);
+                getValidation(ValidationPage, function(Response)
+                {
+                    if (Response == 200)
+                    {
+                        setContentInfo();
+                    }
+                    else
+                    {
+                        setError("dialogAlert", "", ThisPage, "getValidation", "Validation");
+                    }
+                });
+            }
+            else
+            {
+                setError("dialogAlert", "", ThisPage, "getLanguage", "Language");
+            }
+        });
+    }
+}
+function setContentInfo()
+{
+    var _HTML = "";
+    $.each(MyDefaultLanguage.ActiveLanguages, function(Key, Value)
+    {
+        _HTML += "<li><a href=\"javascript:void(0);\" onclick=\"changeLanguage('" + Value[0] + "')\">" + Value[1] + "</a></li>"
+    });
+    $("#ul_language").empty();
+    $("#ul_language").append(_HTML);
+
+    $("#frmSignIn").off().on('keypress', function(event)
+    {
+        if ((event.keyCode || event.which) == 13)
+        {
+            validateSignIn();
+            return false;
+        }
+    });
+
+    $("#cmdSignIn").click(function() { validateSignIn(); });
+    $("#cmdForgotUP").click(function() { changeInOut('forgot', 'login'); });
+    $("#cmdUsernamePassword").click(function() { validateUsernamePassword(); });
+    $("#cmdReturnToSignIn").click(function() { changeInOut('login', 'forgot'); });
+    $("#AppName").text(AppName);
+    $("#AppVersion").text(AppVersion);
+    $("#AppVersionCode").text(AppVersionCode);
+    formdirty = false;
+    setValidation();    
+    FormStyle("#frmSignIn");
+    FormStyle("#frmUsernamePassword");
+}
+function changeLanguage(SelectedLanguage)
+{
+    if (ThisLanguage != SelectedLanguage)
+    {
+        setLanguageCookie(SelectedLanguage, function(Response)
+        {
+            if (Response != "")
+            {
+                ThisLanguage = Response;
+                setDefaultLanguage(ThisLanguage);
+                if (ThisLanguage != "")
+                {
+                    setPageLanguage(ThisLanguage);
+                }
+                else
+                {
+                    setError("dialogAlert", "", ThisPage, "setLanguageCookie", "LanguageCookie");
+                }
+            }
+            else
+            {
+                setError("dialogAlert", "", ThisPage, "setLanguageCookie", "LanguageCookie");
+            }
+        });
+    }
+}
+function validateDirty()
+{
+    formdirty = true;
+}
+function validateSignIn()
+{
+    var _ObjForm = serializeForm("#frmSignIn");
+    
+
+}
+function validateUsernamePassword()
+{
+    var _ObjForm = serializeForm('#frmUsernamePassword');
+    
+}
+function adjustStyle(width)
+{
+	width = parseInt(width);
+	if (width >= 1200)
+	{
+	    $("#size-stylesheet").attr("href", "/lib/css/lg.css");
+	    $("#logo").attr("src", "/images/logo/aa_logo50X47.png");
+	}
+	else if (width >= 992 && width < 1200)
+	{
+	    $("#size-stylesheet").attr("href", "/lib/css/md.css");
+	    $("#logo").attr("src", "/images/logo/aa_logo50X47.png");
+	}
+	else if (width >= 768  && width < 991)
+	{
+	    $("#size-stylesheet").attr("href", "/lib/css/sm.css");
+	    $("#logo").attr("src", "/images/logo/aa_logo50X47.png");
+	}
+	else
+	{
+	    $("#size-stylesheet").attr("href", "/lib/css/xs.css");
+	    $("#logo").attr("src", "/images/logo/aa_logo50X47.png");
+	}
+}
+// -->
+    </script>
+    <style>
+        .col-centered
+        {
+            float: none;
+            margin: 0 auto;
+        }
+
+        .topp_logginn
+        {
+            margin-top: 0px;
+        }
+
+        #brandLogo
+        {
+            margin-top: 20px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #user
+        {
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #spiker
+        {
+            margin-top: -40px;
+            display: block;
+            margin-left: auto;
+            margin-right: 122px;
+        }
+
+        .account-wall
+        {
+            margin-top: 40px;
+            margin-left: -10px;
+            margin-right: -10px;
+            padding: 30px 30px 30px 30px;
+            background-color: #ebebeb;
+            border-radius: 35px;
+            box-shadow: 10px 10px 5px #d9d9d9;
+        }
+    </style>
+</head>
+<body>
+    <div id="signIn" class="container">
+        <div class="row">
+            <div class="col-sm-12">
+                <img id="brandLogo" class="img-responsive" src="/lib/icons/logo/aa_logo80X75.png">
+            </div>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="text-center">ABRAHAMSEN AUDIO</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="text-center">PORTAL</p>
+            </div>
+        </div>        
+        <div class="row">
+            <div class="col-sm-4 col-centered">
+                <div class="account-wall">
+                    <div class="row">
+                        <img id="spiker" src="/lib/icons/spiker.png" height="60" width="60">
+                        <img id="user" src="/lib/icons/portal_login.png" height="90" width="90">
+                    </div>
+                    <div id="login" class="row">
+                        <div class="row">
+                            <div class="col-sm-12">&nbsp;</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">&nbsp;</div>
+                        </div>
+                        <form id="frmSignIn">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <p class="alert alert-info text-center fau-all-padding-5px btn-shadow" role="alert" id="signinInfo"></p>
+                                </div>
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-user fa-fw">
+                                    </i>
+                                </span>
+                                <label for="Username" style="display: none;"></label>
+                                <input id="Username" type="text" class="form-control">
+                            </div>
+                            <div class="form-group input-group">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-key fa-fw">
+                                    </i>
+                                </span>
+                                <label for="Password" style="display: none;"></label>
+                                <input id="Password" type="password" class="form-control pwd">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open "></i></button>
+                                </span>
+                            </div>
+                            <div class="form-check mb-2 mr-sm-2 mb-sm-0">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" id="RememberMe" type="checkbox"> <span id="txtrememberMe"></span>
+                                </label>
+                            </div>
+                            <div class="row">&nbsp;</div>
+                            <div class="col-sm-12">
+                                <button type="button" class="btn btn-lg btn-primary btn-shadow btn-block" id="cmdSignIn"><i class="fa fa-sign-in pull-right"></i></button>
+                            </div>
+                            <div class="row">&nbsp;</div>
+                            <div class="row">&nbsp;</div>
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-sm btn-info btn-block btn-shadow" data-toggle="dropdown" aria-expanded="false" id="cmdLanguage"></button>
+                                    <ul id="ul_language" class="dropdown-menu" role="menu"></ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <button type="button" class="btn btn-sm btn-success btn-block btn-shadow" id="cmdForgotUP"></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                        <div id="forgot" class="row" style="display: none;">
+                            <div class="row">
+                                <div class="col-sm-12">&nbsp;</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-12">&nbsp;</div>
+                            </div>
+                            <div class="col-sm-12">
+                                <form id="frmUsernamePassword">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <p class="alert alert-info text-center fau-all-padding-5px btn-shadow" role="alert" id="forgotUPInfo"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row fau-all-marginBottom-21px">
+                                        <div class="col-sm-12">
+                                            <label for="Email" style="display: none;"></label>
+                                            <div class="input-group">
+                                                <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+                                                <input id="Email" type="text" class="form-control">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">&nbsp;</div>                                    
+                                    <div class="row fau-all-marginBottom-42px">
+                                        <div class="col-sm-6 fau-xs-marginBottom-7px">
+                                            <button type="button" class="btn btn-sm btn-success btn-shadow btn-block" id="cmdUsernamePassword"></button>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="button" class="btn btn-sm btn-primary btn-shadow btn-block" id="cmdReturnToSignIn"></button>
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-3">&nbsp;</div>
+                </div>
+                <div class="col-xs-6 col-sm-6">
+                    <table align="left">
+                        <tr>
+                            <td style="font-size:11px;" id="labelAppName"></td>
+                            <td style="font-size:11px;" id="AppName"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="col-xs-3 col-sm-3">
+                        <table align="left">
+                            <tr>
+                                <td style="font-size:11px;" id="labelAppVersion"></td>
+                                <td style="font-size:11px;" id="AppVersion"></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-xs-3 col-sm-3">
+                        <table align="left">
+                            <tr>
+                                <td style="font-size:11px;" id="labelAppVersionCode"></td>
+                                <td style="font-size:11px;" id="AppVersionCode"></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div> <!-- /container -->
+    <!-- Template -->
+    <link href="lib/css/admin/default.css" rel="stylesheet" />
+    <!-- End Template -->
+
+
+
+</body>
+
+</html>
