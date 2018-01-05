@@ -1,0 +1,18 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Customers" ] }
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Kunder" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Customers | ABRAHAMSEN AUDIO PORTAL"
+    },
+    "nb-NO": {
+      "labelPageTitle": "Kunder | ABRAHAMSEN AUDIO PORTAL"
+    }
+  }
+}

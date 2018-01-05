@@ -1,0 +1,72 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Products" ] },
+      { "cmdResetFilter": [ "id", "text", "Reset filter" ] },
+      { "cmdAddNewProduct": [ "id", "htmlembedded", "New product" ] },
+      { "labelLegendProductFilter": [ "id", "text", "Filter" ] },      
+      { "labelSearchText": [ "id", "text", "Search product" ] },
+      { "SearchText": [ "id", "placeholder", "Product name/Category" ] },
+      { "labelProductStatus": [ "id", "text", "Status" ] },
+      { "labelProductStatusAktive": [ "id", "text", "Active" ] },
+      { "labelProductStatusDisabled": [ "id", "text", "Disabled" ] },
+      { "labelProductName": [ "id", "text", "Product name" ] },
+      { "labelProductCategory": [ "id", "text", "Product Category" ] },
+      { "labelAdvertisingSlider": [ "id", "text", "Slider" ] },
+      { "labelShowWeb": [ "id", "text", "Web" ] },
+      { "labelShowStore": [ "id", "text", "Store" ] },
+      { "labelEdit": [ "id", "text", "Edit" ] },
+      { "labelStatus": [ "id", "text", "Status" ] },
+      { "labelDelete": [ "id", "text", "Delete" ] },
+      { "trEdit": [ "class", "title", "Double-click to edit" ] },
+      { "cmdEdit": [ "class", "title", "Click to edit" ] },
+      { "cmdStatus": [ "class", "title", "Click to change status" ] },
+      { "cmdDelete": [ "class", "title", "Click to delete" ] }
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Produkter" ] },
+      { "cmdResetFilter": [ "id", "text", "Reset filtrering" ] },
+      { "cmdAddNewProduct": [ "id", "htmlembedded", "Nytt produkt" ] },
+      { "labelLegendProductFilter": [ "id", "text", "Filtrering" ] },     
+      { "labelSearchText": [ "id", "text", "Søk produkt" ] },
+      { "SearchText": [ "id", "placeholder", "Produkt navn/kategori" ] },
+      { "labelProductStatus": [ "id", "text", "Status" ] },
+      { "labelProductStatusAktive": [ "id", "text", "Aktiv" ] },
+      { "labelProductStatusDisabled": [ "id", "text", "Deaktiv" ] },
+      { "labelProductName": [ "id", "text", "Produkt navn" ] },
+      { "labelProductCategory": [ "id", "text", "Produkt kategori" ] },
+      { "labelAdvertisingSlider": [ "id", "text", "Banner" ] },
+      { "labelShowWeb": [ "id", "text", "Web" ] },
+      { "labelShowStore": [ "id", "text", "Butikk" ] },
+      { "labelEdit": [ "id", "text", "Endre" ] },
+      { "labelStatus": [ "id", "text", "Status" ] },
+      { "labelDelete": [ "id", "text", "Slett" ] },
+      { "trEdit": [ "class", "title", "Dobbeltklikk for å endre" ] },
+      { "cmdEdit": [ "class", "title", "Klikk for å endre" ] },
+      { "cmdStatus": [ "class", "title", "Klikk for å endre status" ] },
+      { "cmdDelete": [ "class", "title", "Klikk for å slett" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Products | ABRAHAMSEN AUDIO PORTAL",
+      "lableTotalRecords": "Total products:",
+      "lableNoRecords": "No products found.",
+      "spanPageLabelEditProduct": "Edit product",
+      "spanPageLabelAddProduct": "Add product",
+      "ProductNotFound": "No product found. Please try again. If this error persists please contact the Administration.",
+      "ProductDataExistsDisabled": "Due to different information associated with the product, this product can not be deleted.",
+      "ProductGroupLable": "Select group, All"
+    },
+    "nb-NO": {
+      "labelPageTitle": "Produkter | ABRAHAMSEN AUDIO PORTAL",
+      "lableTotalRecords": "Totalt antall produkter:",
+      "lableNoRecords": "Ingen produkter funnet.",
+      "spanPageLabelEditProduct": "Endre produkt",
+      "spanPageLabelAddProduct": "Registrer produkt",
+      "ProductNotFound": "Ingen produkt funnet. Vennligst prøv på nytt. Hvis denne feilen vedvarer, vennligst kontakt administrasjonen.",
+      "ProductDataExistsDisabled": "På grunn av forskjellig informasjon knyttet til produktet, kan produktet ikke slettes.",
+      "ProductGroupLable": "Velg gruppe, Alle"
+    }
+  }
+}

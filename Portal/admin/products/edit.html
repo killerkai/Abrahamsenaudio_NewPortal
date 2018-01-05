@@ -1,0 +1,440 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+
+    /// <reference path="/scripts/_references.js" />
+    var LanguagePage = "/lib/languages/products/addedit-lang.json";
+    var ValidationPage = "/lib/validation/products/addedit-val.json";
+    var ThisPage = "admin/products/edit";
+    var ModalHelpPath = "admin-products-addedit";
+
+    ObjProductGroupOptionData = [];
+    ObjProductCategoryOptionData = [];
+    var CountAddon;
+
+    function getContentInfo()
+    {
+        getLanguage(LanguagePage, function(Response)
+        {
+            setDefaultLanguage(ThisLanguage);
+            if (Response == 200)
+            {
+                setPageLanguage(ThisLanguage);
+                getValidation(ValidationPage, function(Response)
+                {
+                    if (Response == 200)
+                    {
+                        getContentData();
+                    }
+                    else
+                    {
+                        setError("getpage", "/admin/dashboard/index.html", ThisPage, "getValidation", "Validation");
+                    }
+                });
+            }
+            else
+            {
+                setError("getpage", "/admin/dashboard/index.html", ThisPage, "getLanguage", "Language");
+            }
+        });
+    }
+    function getContentData()
+    {
+        var _HTML = "";
+        $("#ProductGruppeId").empty();
+        $("#ProduktkategoriId").empty();
+        ObjProductGroupOptionData = [];
+        ObjProductCategoryOptionData = [];
+        ObjProductData = {};
+
+        var _OutputElements = {};
+        var _ObjProductData = {};
+        _ObjProductData.ProduktId = Number(ObjPageTransferData.ProductId);
+        _OutputElements["TransferType"] = "readoption";
+        _OutputElements["ProductData"] = _ObjProductData;
+
+
+        $.ajaxSetup({ cache: false });
+        $.ajax(
+        {
+            url: "/api/admin/productcrud",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(_OutputElements),
+            contentType: "application/json; charset=utf-8",
+            timeout: 15000
+        }).done(function(data, textStatus, jqXHR)
+        {
+            if (jqXHR.status == 200)
+            {
+                if (data.Transfer == 200)
+                {
+                    ObjProductGroupOptionData = data.ProductGruppeData;
+                    ObjProductCategoryOptionData = data.ProductKategoriData
+                    ObjProductData = data.ProductData[0];
+                    CountAddon = data.CountAddon
+                    $("#AddOnsBadge").text(CountAddon);
+                    _HTML = "";
+                    $.each(ObjProductGroupOptionData, function(i, ProductGroup)
+                    {
+                        _HTML += '<option value="' + ProductGroup.ProduktgruppeId + '">' + ProductGroup.Produktgruppe + '</option>';
+                    });
+                    $("#ProductGruppeId").append(_HTML);
+                    _HTML = "";
+                    $.each(ObjProductCategoryOptionData, function(i, ProductCategory)
+                    {
+                        _HTML += '<option value="' + ProductCategory.ProduktkategoriId + '">' + ProductCategory.Produktkategori + '</option>';
+                    });
+                    $("#ProduktkategoriId").append(_HTML);
+                    setValidation("#frmReg");
+                    if (isEmpty(ObjProductData) == false)
+                    {
+                        populateForm("", ObjProductData);
+                    }
+                    _HTML = "";
+                    if (data.CountAddon > 0)
+                    {
+                        $("#ProductTillegg").append("");
+                        $.each(ObjProductData._ProductAddOnsData, function(i, ProductTillegg)
+                        {
+                            _HTML += '<div id="' + ProductTillegg.TilleggId + '" class="col-sm-4 col-md-3 ProductTillegg">';
+                            _HTML += '<div class="form-group">';
+                            _HTML += '<label for="' + ProductTillegg.TilleggGruppe + '" class="tilleggruppe">' + ProductTillegg.TilleggGruppe + '</label>';
+                            _HTML += '<input type="text" value="' + ProductTillegg.TilleggTekst + '" class="form-control input-sm AddOns tilleggtekst" id="' + ProductTillegg.TilleggGruppe + '">';
+                            _HTML += '</div>';
+                            _HTML += '</div>';
+
+                        });
+                        $("#ProductTillegg").append(_HTML);
+                    }
+                    setContentInfo();
+                }
+                else if (data.Transfer == 404)
+                {
+                    hideLoadboxAndBackground();
+                    window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.UserNotFound); }, 200);
+                }
+                else
+                {
+                    setError("dialogAlert", "", ThisPage, "getContentData:readuser:data.Transfer:" + data.Transfer, "LoadData");
+                }
+            }
+        }).always(function(jqXHR, textStatus, errorThrown)
+        {
+            if (jqXHR.status != undefined)
+            {
+                setError("dialogAlert", "", ThisPage, "getContentData:readuser:jqXHR.status:" + jqXHR.status, "LoadData");
+            }
+        });
+    }
+
+    function setContentInfo()
+    {
+        $("#newAddOn").hide();
+        $("#cmdAddOns").click(function()
+        {
+            $('body').animate({ scrollTop: $(document).height() + $(window).height() });
+        });
+        $(".removespes").hide();
+        $(".addspes").click(function()
+        {
+            $(".addspes").hide();
+            $(".removespes").show();
+            $("#newAddOn").show();
+            $("#newAddOnName").focus();
+            $('body').animate({ scrollTop: $(document).height() + $(window).height() });
+        });
+        $(".removespes").click(function()
+        {
+            $("#newAddOn").hide();
+            $(".removespes").hide();
+            $(".addspes").show();
+            $('body').animate({ scrollTop: $(document).height() + $(window).height() });
+        });
+        $("#cmdNewAddOns").click(function()
+        {
+            var newAddOnName = $("#newAddOnName").val();
+            var newAddOnVal = $("#newAddOnVal").val();
+            if (newAddOnName == "" || newAddOnVal == "")
+            {
+                window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.AddOnsEmpty); }, 200);
+            }
+            else
+            {
+                _HTML = "";
+                _HTML += '<div class="col-sm-4 col-md-3 ProductTillegg">';
+                _HTML += '<div class="form-group">';
+                _HTML += '<label for="' + newAddOnName + '" class="tilleggruppe">' + newAddOnName + '</label>';
+                _HTML += '<input type="text" value="' + newAddOnVal + '" class="form-control input-sm AddOns tilleggtekst" id="' + newAddOnVal + '">';
+                _HTML += '</div>';
+                _HTML += '</div>';
+                $("#newAddOnName").val("");
+                $("#newAddOnVal").val("");
+                $("#newAddOnName").focus();
+                CountAddon = CountAddon + 1;
+                $("#AddOnsBadge").text(CountAddon);
+                $("#ProductTillegg").append(_HTML);                
+                $('body').animate({ scrollTop: $(document).height() + $(window).height() });                
+                console.log(JSON.stringify(ObjProductData));                
+                setValidation("#frmReg");
+                validateDirty();
+            }
+        });
+        $('.sticky').addClass('fixed-header');
+        formdirty = false;
+        setDefaultLanguage(ThisLanguage);
+        setPageLanguage(ThisLanguage);
+        setValidation("#frmReg");
+        setCSSInlineStyle("#frmReg");
+        FormStyle("#frmReg");
+        $("#page").fadeIn(100);
+        window.setTimeout(function() { hideLoadboxAndBackground(); hideBackground(); }, 100);
+    }
+
+    function validateDirty()
+    {
+        formdirty = true;
+        $("#cmdSubmit").prop("disabled", false);
+        $("#cmdSubmitAndContinue").prop("disabled", false);
+        $("#cmdClose").html(SingleDefaultElements.cmdCancelText);
+        $("#cmdClose").prop("title", SingleDefaultElements.cmdCancelTitle);
+    }
+
+    function verifyCancel()
+    {
+        if (formdirty == true)
+        {
+            modalStandardConfirm(SingleDefaultElements.cancelDialogConfirmTitle, SingleDefaultElements.cancelDialogConfirmText, SingleDefaultElements.cancelDialogConfirmButton1, SingleDefaultElements.cancelDialogConfirmButton2, contentCancel, '');
+        }
+        else
+        {
+            window.top.closeProductDialogiFrame(false);
+        }
+    }
+
+    function contentCancel()
+    {
+        window.top.closeProductDialogiFrame(false);
+    }
+
+    function verifySubmit(ClickedButton)
+    {
+        var _ObjForm = serializeForm("#frmReg");
+        if (isEmpty(_ObjForm) == false)
+        {
+            var _OutputElements = {};
+            var _ListTillegg = [];
+            $('.ProductTillegg').each(function()
+            {
+                _ListTillegg.push(
+                {
+                    TilleggId: this.id,
+                    TilleggGruppe: encodeURIComponent($(".tilleggruppe", this).text()),
+                    TilleggTekst: encodeURIComponent($(".tilleggtekst", this).val())
+                });
+            });
+            _ObjForm.ProduktId = Number(ObjPageTransferData.ProductId);            
+            _OutputElements.TransferType = "updateproduct";
+            _OutputElements.Tillegg = _ListTillegg;
+            _OutputElements.Tillegg = _ListTillegg;
+
+
+            console.log(JSON.stringify(_ListTillegg));
+
+            //$.ajaxSetup({ cache: false });
+            //$.ajax(
+            //{
+            //    url: "/api/admin/productcrud",
+            //    type: "POST",
+            //    dataType: "json",
+            //    data: JSON.stringify(_OutputElements),
+            //    contentType: "application/json; charset=utf-8",
+            //    timeout: 15000
+            //}).done(function(data, textStatus, jqXHR)
+            //{
+            //    if (jqXHR.status == 200)
+            //    {
+            //        if (data.Transfer == 200)
+            //        {
+            //            if (ClickedButton == "cmdSubmit")
+            //            {
+            //                window.top.closeProductDialogiFrame(true);
+            //            }
+            //            else
+            //            {
+            //                getPage('/admin/products/edit.html');
+            //            }
+            //        }
+            //        else if (data.Transfer == 302)
+            //        {
+            //            window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.EmailUsernameExists); }, 200);
+            //        }
+            //        else
+            //        {
+            //            setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:data.Transfer:" + data.Transfer, "StoreData");
+            //        }
+            //    }
+            //}).always(function(jqXHR, textStatus, errorThrown)
+            //{
+            //    if (jqXHR.status != undefined)
+            //    {
+            //        setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:jqXHR.status:" + jqXHR.status, "StoreData");
+
+            //    }
+            //});
+        }
+    }
+
+</script>
+<style>
+    .fixed-header
+    {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 10;
+    }
+</style>
+<body>
+    <form id="frmReg">
+        <div style="max-width: 1180px;">
+            <div class="row" style="margin: 2px;">
+                <div class="col-sm-12 sticky" style="padding: 0px;">
+
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+
+                            <table width="100%">
+                                <tr>
+                                    <td>
+                                        <table align="left">
+                                            <tr>
+                                                <td><button type="button" class="btn btn-success btn-xs btn-shadow submit" id="cmdSubmit"></button></td>
+                                                <td class="divider"></td>
+                                                <td><button type="button" class="btn btn-success btn-xs btn-shadow submit" id="cmdSubmitAndContinue"></button></td>
+                                                <td class="divider"></td>
+                                                <td>
+                                                    <button id="cmdAddOns" class="btn btn-primary btn-xs" type="button" data-toggle="collapse" data-target="#collapseTillegg" aria-expanded="false" aria-controls="collapseTillegg">
+                                                        <p id="AddOnsBadge" class="badge"></p>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                    <td>
+                                        <table align="right">
+                                            <tr>
+                                                <td><button type="button" class="btn btn-info btn-xs btn-shadow cancel" id="cmdClose"></button></td>
+                                                <td class="divider"></td>
+                                                <td><button type="button" class="btn btn-info btn-xs btn-shadow help" id="cmdHelp"><i class="fa fa-question-circle fa-lg"></i></button></td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <div class="row" style="margin: 2px;">
+                <div class="col-sm-12" style="top: 50px;">
+
+                    <fieldset>
+                        <legend id="labelLegend"></legend>
+
+                        <div class="row fau-all-marginTop-14px">
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="ProductGruppeId" id="labelProductGruppeId"></label>
+                                    <select class="form-control input-sm ProductInfo" id="ProductGruppeId"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="ProduktkategoriId" id="labelProduktkategoriId"></label>
+                                    <select class="form-control input-sm ProductInfo" id="ProduktkategoriId"></select>
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="Produkt" id="labelProdukt"></label>
+                                    <input type="text" class="form-control input-sm ProductInfo" id="Produkt">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="Pris" id="labelPris"></label>
+                                    <input type="text" class="form-control input-sm ProductInfo" id="Pris">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="Bredde" id="labelBredde"></label>
+                                    <input class="form-control input-sm ProductInfo" id="Bredde">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="Hoyde" id="labelHoyde"></label>
+                                    <input class="form-control input-sm ProductInfo" id="Hoyde">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="Dybde" id="labelDybde"></label>
+                                    <input type="text" class="form-control input-sm ProductInfo" id="Dybde">
+                                </div>
+                            </div>
+                            <div class="col-sm-4 col-md-3">
+                                <div class="form-group">
+                                    <label for="Vekt" id="labelVekt"></label>
+                                    <input type="text" class="form-control input-sm ProductInfo" id="Vekt">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-12">
+                            <div class="form-group">
+                                <label for="ProduktBeskrivelse" id="labelProduktBeskrivelse"></label>
+                                <textarea rows="6" cols="50" type="text" class="form-control input-sm ProductInfo" id="ProduktBeskrivelse"></textarea>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12" style="padding: 10px;">
+                                <table width="100%">
+                                    <tr>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <div class="collapse" id="collapseTillegg">
+                                                <div class="card card-body" id="ProductTillegg"></div>
+                                                <div class="col-sm-12"><a><i class="removespes glyphicon glyphicon-minus"></i><i class="addspes glyphicon glyphicon-plus"></i><p class="newspes"></p></a></div>
+                                                <div class="row" id="newAddOn">
+                                                    <div class="col-sm-4" style="padding: 10px;"></div>
+                                                    <div class="col-sm-4" style="padding: 10px;">
+                                                        <input type="text" class="form-control input-sm" id="newAddOnName">
+                                                        <input type="text" class="form-control input-sm" id="newAddOnVal">
+                                                        <button id="cmdNewAddOns" class="btn btn-primary btn-xs" type="button"></button>
+                                                    </div>
+                                                    <div class="col-sm-4" style="padding: 10px;"></div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                    </fieldset>
+
+                </div>
+            </div>
+
+        </div>
+    </form>
+</body>

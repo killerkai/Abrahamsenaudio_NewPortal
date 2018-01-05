@@ -13,7 +13,7 @@
 	],	
 	"SingleNonLanguageElements":
 	{
-		"defaultTeamAndLogo": '<img class="img-responsive" border="0px" src="/lib/icons/levo2_logo_blue.png" width="150px" height="23px" style="float: left; margin-right: 10px;"><span style="line-height: 33px;">team@levo2.no</span>'
+	    "defaultTeamAndLogo": '<img class="img-responsive" border="0px" src="/lib/icons/logo/aa_logo50X47.png" width="40px" height="40px" style="float: left; margin-right: 10px;"><span style="line-height: 33px;">team@abrahamsenaudio.com</span>'
 	},
 	"ObjDefaultElements":
 	{	
@@ -179,7 +179,7 @@
 			"LanguageCookieError": "Unable to set language coockie. Please try again. If this error persists please contact the Administration.",
 			"LanguageError": "Unable to load language files. Please try again. If this error persists please contact the Administration.",
 			"ValidationError": "Unable to load validation files. Please try again. If this error persists please contact the Administration.",
-			"SignInError": "Unable to Sign In. Please try again. If this error persists please contact the Administration.",
+			"SignInError": "Kan ikke logge inn. Vær så snill, prøv på nytt. Hvis denne feilen vedvarer, vennligst kontakt administrator.",
 			"LoadDataError": "Unable to load data. Please reload the page. If this error persists please contact the Administration.",
 			"StoreDataError": "Unable to store data. Please try again. If this error persists please contact the Administration.",
 			"DeleteDataError": "Unable to delete data. Please try again. If this error persists please contact the Administration.",

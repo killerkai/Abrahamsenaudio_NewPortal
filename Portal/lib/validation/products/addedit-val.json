@@ -1,0 +1,69 @@
+{
+  "ProductGruppeId": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "class": "validate validate-numeric",
+    "datatype": "int"
+  },
+  "ProduktkategoriId": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "class": "validate validate-numeric",
+    "datatype": "int"
+  },
+  "Produkt": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "minlength": "3",
+    "maxlength": "20",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "Pris": {
+    "label": "optional",
+    "data-attr": "val",
+    "maxlength": "8",
+    "class": "validate validate-alpha",
+    "datatype": "int"
+  },
+  "Bredde": {
+    "label": "optional",
+    "data-attr": "val",
+    "maxlength": "10",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "Hoyde": {
+    "label": "optional",
+    "data-attr": "val",
+    "maxlength": "10",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "Dybde": {
+    "label": "optional",
+    "data-attr": "val",
+    "maxlength": "10",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "Vekt": {
+    "label": "optional",
+    "data-attr": "val",
+    "maxlength": "10",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "ProduktBeskrivelse": {
+    "label": "optional",
+    "data-attr": "val",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "AddOns": {
+    "label": "optional",
+    "data-attr": "val",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  }
+}

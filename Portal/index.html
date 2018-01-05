@@ -10,14 +10,14 @@
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="format-detection" content="email=no" />
-    <title>LOGIN - PORTAL - ABRAHAMSEN AUDIO</title>
+    <title></title>
     <script type="text/javascript" src="/lib/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/lib/js/levo2-functionlib.js"></script>
     <script type="text/javascript" src="/lib/js/levo2-validation.js"></script>
     <script type="text/javascript" src="/lib/languages/default.js"></script>
     <script type="text/javascript" src="/lib/plugins/bootstrap/js/bootstrap.min.js"></script>
     <link rel="shortcut icon" href="/lib/icons/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/lib/icons/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/lib/icons/favicon.ico" type="image/x-icon">    
     <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="/lib/plugins/font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/lib/plugins/flick/jquery-ui.min.css">
@@ -26,55 +26,68 @@
 <!--
     var ThisPage = "signin";
     var AppName = "Abrahamsen Audio Portal"
-    var AppVersion = ".1.1.0";
-    var AppVersionCode = ".A.A.P";
+    var AppVersion = "1.1.0";
+    var AppVersionCode = "A.A.P";
+    var DebugMode = false;
+    var StyleMode = false;
+    var MasterSyncInterval = 0;
+    var MasterSyncIntervalTime = 10000;
+    var JSONValidation = {};
+    var ArrayPageSize = [];
+    var ObjPageData = {};
+    var ObjPageTransferData = {};
+    var ErrorPage = "";
+    var ErrorCode = "";
+    var ErrorText = "";
+    var PageTimeout = "";
+
     var ThisLanguage = "en-US";
     var LanguagePage = "/lib/languages/index-lang.json";
     var ValidationPage = "/lib/validation/index-val.json";
     var ThisLocation = location.hostname;
-$(document).ready(function()
-{
-    ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
-    $(window).resize(function()
-    {
+
+    $(document).ready(function()
+    {        
         ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
-        if ($('#background').is(':visible'))
+        $(window).resize(function()
         {
-            hideLoadboxAndBackground();
-            showLoadboxAndBackground();
-        }
+            ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+            if ($('#background').is(':visible'))
+            {
+                hideLoadboxAndBackground();
+                showLoadboxAndBackground();
+            }
+        });
+
+        $(".reveal").on('click', function ()
+        {
+            var $pwd = $(".pwd");
+            if ($pwd.attr('type') === 'password')
+            {
+                $pwd.attr('type', 'text');
+            } else
+            {
+                $pwd.attr('type', 'password');
+            }
+        });
+
+        setNonLanguage();
+        getContentData();
     });
 
-
-    $(".reveal").on('click', function ()
+    function getContentData()
     {
-        var $pwd = $(".pwd");
-        if ($pwd.attr('type') === 'password')
+        var _CookieLanguage = getCookie(ThisLocation + "-language");
+        if (_CookieLanguage != "" || _CookieLanguage != undefined)
         {
-            $pwd.attr('type', 'text');
-        } else
-        {
-            $pwd.attr('type', 'password');
-        }
-    });
-
-    setNonLanguage();
-    getContentData();
-});
-
-function getContentData()
-{
-    setLanguageCookie(ThisLanguage, function(Response)
-    {
-        if (Response != "")
-        {
-            setContentData(Response);
+            ThisLanguage = _CookieLanguage;
         }
         else
         {
-            setContentData(ThisLanguage);
+            setCookie(ThisLocation + "-language", ThisLanguage, 365);
         }
-    });
+        setContentData(ThisLanguage);
+    }
 
     function setContentData(_SelectedLanguage)
     {
@@ -103,7 +116,8 @@ function getContentData()
             }
         });
     }
-}
+
+
 function setContentInfo()
 {
     var _HTML = "";
@@ -135,6 +149,7 @@ function setContentInfo()
     FormStyle("#frmSignIn");
     FormStyle("#frmUsernamePassword");
 }
+
 function changeLanguage(SelectedLanguage)
 {
     if (ThisLanguage != SelectedLanguage)
@@ -147,6 +162,7 @@ function changeLanguage(SelectedLanguage)
                 setDefaultLanguage(ThisLanguage);
                 if (ThisLanguage != "")
                 {
+                    $("#signinInfo").removeClass('alert-danger').addClass('alert-info');
                     setPageLanguage(ThisLanguage);
                 }
                 else
@@ -161,16 +177,63 @@ function changeLanguage(SelectedLanguage)
         });
     }
 }
+
 function validateDirty()
 {
     formdirty = true;
 }
+
 function validateSignIn()
 {
     var _ObjForm = serializeForm("#frmSignIn");
-    
+    if (_ObjForm && _ObjForm instanceof Object && _ObjForm != null)
+    {
+        showBackground();
+        var _OutputElements = {};
+        _OutputElements["LanguageCode"] = encodeURIComponent(ThisLanguage);
+        $.ajaxSetup({ cache: false });
+        $.ajax(
+        {
+            url: "/api/signinout/signin",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(_OutputElements),
+            contentType: "application/json; charset=utf-8",
+            timeout: 15000,
+            headers:
+            {
+                "Authorization": "Basic " + btoa(_ObjForm.Username + ":" + _ObjForm.Password)
+            }
+        }).done(function(data, textStatus, jqXHR)
+        {        
 
+            if (jqXHR.status == 200)
+            {
+                
+                if (data.Transfer == 200)
+                {                    
+                    window.location.href = "/" + data.UserType.toLowerCase();                     
+                }
+                else
+                {
+                    setError("dialogAlert", "", ThisPage, data.Transfer, "SignIn");
+                }
+            }
+        }).always(function(jqXHR, textStatus, errorThrown)
+        {
+            hideBackground();
+            if (jqXHR.status == 404)
+            {                
+                $("#signinInfo").text(SingleElements.signinErrorWrongUsernamePassword).removeClass('alert-info').addClass('alert-danger');
+            }
+            else if (jqXHR.status != undefined)
+            {
+                setError("dialogAlert", "", ThisPage, jqXHR.status, "SignIn");
+            }
+        });
+    }
 }
+
 function validateUsernamePassword()
 {
     var _ObjForm = serializeForm('#frmUsernamePassword');
@@ -247,7 +310,7 @@ function adjustStyle(width)
             background-color: #ebebeb;
             border-radius: 35px;
             box-shadow: 10px 10px 5px #d9d9d9;
-        }
+        }       
     </style>
 </head>
 <body>
@@ -307,11 +370,7 @@ function adjustStyle(width)
                                     <button class="btn btn-default reveal" type="button"><i class="glyphicon glyphicon-eye-open "></i></button>
                                 </span>
                             </div>
-                            <div class="form-check mb-2 mr-sm-2 mb-sm-0">
-                                <label class="form-check-label">
-                                    <input class="form-check-input" id="RememberMe" type="checkbox"> <span id="txtrememberMe"></span>
-                                </label>
-                            </div>
+                            <div class="row">&nbsp;</div>
                             <div class="row">&nbsp;</div>
                             <div class="col-sm-12">
                                 <button type="button" class="btn btn-lg btn-primary btn-shadow btn-block" id="cmdSignIn"><i class="fa fa-sign-in pull-right"></i></button>
@@ -403,6 +462,18 @@ function adjustStyle(width)
             </div>
         </div>
     </div> <!-- /container -->
+    <div class="modal fade" id="modalStandard">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="modalStandardTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalStandardText"></div>
+                <div class="modal-body" id="modalStandardAdditional"></div>
+            </div>
+        </div>
+    </div>
     <!-- Template -->
     <link href="lib/css/admin/default.css" rel="stylesheet" />
     <!-- End Template -->

@@ -11,8 +11,7 @@
       { "forgotUPInfo": [ "text", "Enter your email address." ] },
       { "Email": [ "id", "placeholder", "Email" ] },
       { "cmdUsernamePassword": [ "id", "text", "Send" ] },
-      { "cmdReturnToSignIn": [ "id", "text", "Sign In" ] },
-      { "rememberMe": [ "id", "text", "remember Me" ] }
+      { "cmdReturnToSignIn": [ "id", "text", "Sign In" ] }
     ],
     "nb-NO": [
       { "signinInfo": [ "id", "text", "Skriv inn ditt brukernavn og passord." ] },
@@ -22,8 +21,7 @@
       { "cmdSignIn": [ "id", "htmlembedded", "Logg Inn" ] },
       { "cmdForgotUP": [ "id", "text", "Glemt B/P?" ] },
       { "cmdLanguage": [ "id", "text", "Språk" ] },
-      { "forgotUPInfo": [ "text", "Skriv inn din e-post adresse." ] },
-      { "rememberMe": [ "id", "text", "Husk Meg" ] },
+      { "forgotUPInfo": [ "text", "Skriv inn din e-post adresse." ] },      
       { "Email": [ "id", "placeholder", "E-post" ] },
       { "cmdUsernamePassword": [ "id", "text", "Send" ] },
       { "cmdReturnToSignIn": [ "id", "text", "Logg Inn" ] }
@@ -31,6 +29,7 @@
   },
   "SingleElements": {
     "en-US": {
+      "labelPageTitle": "Signin | ABRAHAMSEN AUDIO PORTAL",
       "signinDefaultMessage": "Enter your username and password.",
       "UsernameSubmitError": "Please enter your username.",
       "PasswordSubmitError": "Please enter your password.",
@@ -43,6 +42,7 @@
 
     },
     "nb-NO": {
+      "labelPageTitle": "Logg inn | ABRAHAMSEN AUDIO PORTAL",
       "signinDefaultMessage": "Skriv inn ditt brukernavn og passord.",
       "UsernameSubmitError": "Vennligst skriv inn ditt brukernavn.",
       "PasswordSubmitError": "Vennligst skriv inn ditt passord.",

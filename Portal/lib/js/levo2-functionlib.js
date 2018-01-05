@@ -196,7 +196,7 @@ function setCSSInlineStyle(_SelectedArea)
 
 // Errorhandling
 function setError(_Action, _ActionPath, _ErrorPage, _ErrorCode, _ErrorText)
-{
+{    
 	if (_Action == "navigate")
 	{
 		navigateTo(_ActionPath + "?ErrorPage=" + _ErrorPage + "&ErrorCode=" + _ErrorCode + "&ErrorText=" + _ErrorText, 0);
@@ -204,7 +204,7 @@ function setError(_Action, _ActionPath, _ErrorPage, _ErrorCode, _ErrorText)
 	else if (_Action == "dialogAlert")
 	{
 	    $("#modalStandardTitle, #modalStandardText, #modalStandardAdditional").empty();
-	    $("#modalStandardTitle").text(SingleDefaultElements.errorDialogAlertTitle);
+	    $("#modalStandardTitle").text(SingleDefaultElements.errorDialogAlertTitle + _ErrorCode);
 		$("#modalStandardText").html(SingleDefaultElements[_ErrorText + "Error"] + "<br><br>" + AppName + " / " + AppVersion + " / " + AppVersionCode);
 		$("#modalStandardAdditional").html(SingleNonLanguageElements.defaultTeamAndLogo);
 		$('#modalStandard').modal("show");
@@ -216,15 +216,15 @@ function setError(_Action, _ActionPath, _ErrorPage, _ErrorCode, _ErrorText)
 		ErrorText = _ErrorText;
 		getPage(_ActionPath);
 	}
-	if (_ErrorPage.replace(/\//g, '') != "signin")
-	{
-	    var _OutputElements = {};
-	    _OutputElements["TransferType"] = _ErrorText;
-	    _OutputElements["DeviceType"] = "desktop";
-	    _OutputElements["PageName"] = _ErrorPage.replace(/\//g, '');
-	    _OutputElements["Error"] = _ErrorCode;
-	    createErrorLog(_OutputElements);
-	}
+	//if (_ErrorPage.replace(/\//g, '') != "signin")
+	//{
+	//    var _OutputElements = {};
+	//    _OutputElements["TransferType"] = _ErrorText;
+	//    _OutputElements["DeviceType"] = "desktop";
+	//    _OutputElements["PageName"] = _ErrorPage.replace(/\//g, '');
+	//    _OutputElements["Error"] = _ErrorCode;
+	//    createErrorLog(_OutputElements);
+	//}
 }
 
 // Page Language
@@ -400,7 +400,8 @@ function setPageLanguage(SelectedLanguage)
 {
     loadPageLaguage(ObjPageLanguage.ObjElements[SelectedLanguage]);
     SingleElements = ObjPageLanguage.SingleElements[SelectedLanguage];
-    $('#labelPageTitle').text(SingleElements.labelPageTitle);
+    //$('#labelPageTitle').text(SingleElements.labelPageTitle);
+    document.title = SingleElements.labelPageTitle;
 }
 
 // Menu Content
@@ -751,6 +752,7 @@ function modalStandardAlert(SelectedTitle, SelectedAlert)
     $("#modalStandardTitle").text(SelectedTitle);
     $("#modalStandardText").html(SelectedAlert);
     $('#modalStandard').modal("show");
+    setCSSInlineStyle("#modalStandard");
 }
 
 function modalStandardConfirm(SelectedTitle, SelectedAlert, SelectedButton1, SelectedButton2, callback, SelectedId)
@@ -940,48 +942,48 @@ function hideBackground()
 // Set TableSorter Mouese Over
 function setTableSorterMouseOver(SelectedVisibility)
 {
-	if (SelectedVisibility != undefined)
-	{
-		var _ThisButton = "";
-	}
-	$(".tablesorter_tr:odd").css({ "background-color": "#FFFFFF" });
-	$(".tablesorter_tr:even").css({ "background-color": "#F5F5F5" });
-	$(".tablesorter_tr:odd").mouseover(function()
-	{
-	    $(this).css({ "background-color": "#337ab7", "color": "#FFFFFF" });
-		if (SelectedVisibility != undefined)
-		{
-			_ThisButton = $(this).find(".btn");
-			$(_ThisButton).css({ "visibility": "visible" });
-		}
-	});
-	$(".tablesorter_tr:even").mouseover(function()
-	{
-	    $(this).css({ "background-color": "#337ab7", "color": "#FFFFFF" });
-		if (SelectedVisibility != undefined)
-		{
-			_ThisButton = $(this).find(".btn");
-			$(_ThisButton).css({ "visibility": "visible" });
-		}
-	});
-	$(".tablesorter_tr:odd").mouseout(function()
-	{
-	    $(this).css({ "background-color": "#FFFFFF", "color": "#000000" });
-		if (SelectedVisibility != undefined)
-		{
-			_ThisButton = $(this).find(".btn");
-			$(_ThisButton).css({ "visibility": "hidden" });
-		}
-	});
-	$(".tablesorter_tr:even").mouseout(function()
-	{
-	    $(this).css({ "background-color": "#F5F5F5", "color": "#000000" });
-		if (SelectedVisibility != undefined)
-		{
-			_ThisButton = $(this).find(".btn");
-			$(_ThisButton).css({ "visibility": "hidden" });
-		}
-	});
+    if (SelectedVisibility != undefined)
+    {
+        var _ThisButton = "";
+    }
+    $(".tablesorter_tr:odd").css({ "background-color": "#FFFFFF" });
+    $(".tablesorter_tr:even").css({ "background-color": "#F5F5F5" });
+    $(".tablesorter_tr:odd").mouseover(function()
+    {
+        $(this).css({ "background-color": "#DDDDDD" });
+        if (SelectedVisibility != undefined)
+        {
+            _ThisButton = $(this).find(".btn");
+            $(_ThisButton).css({ "visibility": "visible" });
+        }
+    });
+    $(".tablesorter_tr:even").mouseover(function()
+    {
+        $(this).css({ "background-color": "#DDDDDD" });
+        if (SelectedVisibility != undefined)
+        {
+            _ThisButton = $(this).find(".btn");
+            $(_ThisButton).css({ "visibility": "visible" });
+        }
+    });
+    $(".tablesorter_tr:odd").mouseout(function()
+    {
+        $(this).css({ "background-color": "#FFFFFF", "color": "#000000" });
+        if (SelectedVisibility != undefined)
+        {
+            _ThisButton = $(this).find(".btn");
+            $(_ThisButton).css({ "visibility": "hidden" });
+        }
+    });
+    $(".tablesorter_tr:even").mouseout(function()
+    {
+        $(this).css({ "background-color": "#F5F5F5", "color": "#000000" });
+        if (SelectedVisibility != undefined)
+        {
+            _ThisButton = $(this).find(".btn");
+            $(_ThisButton).css({ "visibility": "hidden" });
+        }
+    });
 }
 
 // Grid functions

@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title id="lablePageTitle"></title>
+    <script type="text/javascript" src="/lib/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery_ui_langs.js"></script>
+    <script type="text/javascript" src="/lib/js/levo2-functionlib.js"></script>
+    <script type="text/javascript" src="/lib/js/levo2-validation.js"></script>
+    <script type="text/javascript" src="/lib/js/moment-with-langs.min.js"></script>
+    <script type="text/javascript" src="/lib/languages/default.js"></script>    
+    <script type="text/javascript" src="/lib/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/lib/plugins/color-picker/spectrum.js"></script>
+    <script type="text/javascript" src="/lib/plugins/flick/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/lib/plugins/highchart/highcharts.js"></script>
+    <script type="text/javascript" src="/lib/plugins/numeral/numeral.min.js"></script>
+    <script type="text/javascript" src="/lib/plugins/numeral/languages.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap-social.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/color-picker/spectrum.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/flick/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/glyphicons/css/glyphicons.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/levo2fonts/style.css" />    
+    <link type="text/css" rel="stylesheet" href="/lib/css/admin/default.css">
+    <link type="text/css" rel="stylesheet" id="size-stylesheet" href="/lib/css/admin/lg.css">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <script type="text/javascript">
+
+        //////////// TODO ////////////
+        var ObjPageContent = [];
+        var ThisPageDataId = 0;
+        var TopSliderInterval = 0;
+        var ShowLoadBoxInterval = 0;
+        
+        //////////////////////////////
+
+        var ThisPage = "index";
+        var AppName = "Abrahamsen Audio Portal"
+        var AppVersion = "1.1.0";
+        var AppVersionCode = "A.A.P";
+        var DebugMode = false;
+        var StyleMode = false;
+        var MasterSyncInterval = 0;
+        var MasterSyncIntervalTime = 10000;
+        var JSONValidation = {};
+        var ArrayPageSize = [];
+        var ObjPageData = {};
+        var ObjPageTransferData = {};
+        var ErrorPage = "";
+        var ErrorCode = "";
+        var ErrorText = "";
+        var PageTimeout = "";
+
+        // Language
+        var SingleNonLanguageElements = {};
+        var SingleDefaultElements = {};
+        var SingleElements = {};
+        var ObjPageLanguage = {};
+        var LanguagePage = "";
+
+        // Menu
+        var ObjMainMenu = {};
+        var ObjContentMenu = [];
+        var ObjCustomerSettings = [];
+        var ObjProductSettings = [];
+        var ObjUserSettings = [];
+        var ObjWorkAreaData = [];
+        var ObjManagerUserData = [];
+
+        // Grid
+        var ObjPagerInfo = {};
+        var PageCount = 0;
+        var RecordCount = 0;
+
+        // Customer - User Info
+        var ThisFirstName = "";
+        var ThisLastName = ""; 
+        var ThisLanguage = "";
+        var ThisUserType = "";
+        var ThisUserId = "";
+
+        $(document).ready(function()
+        {
+            ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+            adjustStyle();
+            $(window).resize(function()
+            {
+                ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+                adjustStyle();
+                if ($('#background').is(':visible'))
+                {
+                    hideLoadboxAndBackground();
+                    showLoadboxAndBackground();
+                }
+            });
+            setNonLanguage();
+
+            $.ajaxSetup({ cache: false });
+            $.ajax(
+            {
+                url: "/api/signinout/sessions",
+                type: "GET",
+                dataType: "json"
+            }).done(function (data, textStatus, jqXHR)
+            {
+                if (jqXHR.status == 200)
+                {
+                    if (data.Transfer == 200)
+                    {
+                        ObjCustomerInfo = data;
+                        
+                        ThisFirstName = ObjCustomerInfo.FirstName
+                        ThisLastName = ObjCustomerInfo.LastName
+                        ThisLanguage = ObjCustomerInfo.LanguageCode;
+                        ThisUserType = ObjCustomerInfo.UserType
+                        ThisUserId = ObjCustomerInfo.UserId
+
+                        moment.locale(ThisLanguage);
+
+                        var iframeUrl = $.urlParam("objpagetransferdata");
+                        ObjPageTransferData = JSON.parse(decodeURIComponent(iframeUrl));
+                        getPage(ObjPageTransferData.Location);
+                    }
+                    else
+                    {
+                        setError("navigate", "/", ThisPage, "documentReady:sessions:data.Transfer:" + data.Transfer, "LoadData");                        
+                    }
+                }
+            }).always(function (jqXHR, textStatus, errorThrown)
+            {
+                if (jqXHR.status != undefined)
+                {
+                    setError("navigate", "/", ThisPage, "documentReady:sessions:jqXHR.status:" + jqXHR.status, "LoadData");
+                }
+            });
+        });
+
+    </script>
+</head>
+
+<body style="background-color: #FFFFFF;">
+
+    <div id="page"></div>
+
+    <div class="modal fade" id="modalStandard">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="modalStandardTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalStandardText"></div>
+                <div class="modal-body" id="modalStandardAdditional"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalStandardIFrame">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="modalStandardIFrameTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <iframe id="modal-iframe-content"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-modal" style="display: none;"></div>
+
+    <div id="dialog-modal-iframe" style="display: none;">
+        <iframe id="iframe-content"></iframe>
+    </div>
+
+</body>
+</html>

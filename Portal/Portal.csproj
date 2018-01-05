@@ -48,7 +48,20 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MoreLinq, Version=2.8.21218.0, Culture=neutral, PublicKeyToken=384d532d7e88985d, processorArchitecture=MSIL">
+      <HintPath>..\packages\morelinq.2.8.0\lib\net40\MoreLinq.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Linq.Dynamic, Version=1.0.6132.35681, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.Dynamic.1.0.7\lib\net40\System.Linq.Dynamic.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.4.0\lib\netstandard1.0\System.ValueTuple.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -81,6 +94,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="admin\articles\index.html" />
+    <Content Include="admin\customers\index.html" />
+    <Content Include="admin\dashboard\index.html" />
+    <Content Include="admin\dealers\index.html" />
+    <Content Include="admin\iframeindex.html" />
+    <Content Include="admin\index.html" />
+    <Content Include="admin\products\add.html" />
+    <Content Include="admin\products\edit.html" />
+    <Content Include="admin\products\index.html" />
+    <Content Include="admin\suppliers\index.html" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
     <Content Include="lib\css\admin\default.css" />
@@ -88,17 +111,28 @@
     <Content Include="lib\css\admin\md.css" />
     <Content Include="lib\css\admin\sm.css" />
     <Content Include="lib\css\admin\xs.css" />
+    <Content Include="lib\icons\0.png" />
+    <Content Include="lib\icons\1.png" />
+    <Content Include="lib\icons\2.png" />
+    <Content Include="lib\icons\3.png" />
+    <Content Include="lib\icons\ajax_loader.gif" />
+    <Content Include="lib\icons\Delete_Icon.png" />
     <Content Include="lib\icons\favicon.ico" />
     <Content Include="lib\icons\line.gif" />
+    <Content Include="lib\icons\logginn.png" />
     <Content Include="lib\icons\logo\AA_logo180X169.png" />
+    <Content Include="lib\icons\logo\AA_logo256X47.png" />
     <Content Include="lib\icons\logo\AA_logo50X47.png" />
     <Content Include="lib\icons\logo\AA_logo80X75.png" />
+    <Content Include="lib\icons\Norway-Flag-icon.png" />
     <Content Include="lib\icons\portal_login.png" />
+    <Content Include="lib\icons\red-x-icon-th.png" />
     <Content Include="lib\icons\smaal_ajax-loader.gif" />
     <Content Include="lib\icons\sort.png" />
     <Content Include="lib\icons\sort_asc.png" />
     <Content Include="lib\icons\sort_desc.png" />
     <Content Include="lib\icons\spiker.png" />
+    <Content Include="lib\icons\united_kingdom.png" />
     <Content Include="lib\js\jquery-3.1.1.min.js" />
     <Content Include="lib\js\jquery.maskedinput.js" />
     <Content Include="lib\js\jquery.scrollTo.min.js" />
@@ -139,9 +173,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
+    <Compile Include="Controllers\SigInOutController.cs" />
+    <Compile Include="functions\Products.cs" />
+    <Compile Include="functions\SignInOut.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\adbd.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>adbd.dbml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Functionlib.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -164,6 +208,25 @@
     <Content Include="lib\plugins\levo2fonts\fonts\levo2.woff" />
     <Content Include="lib\languages\index-lang.json" />
     <Content Include="lib\validation\index-val.json" />
+    <Content Include="lib\languages\dashboard\index-lang.json" />
+    <Content Include="lib\validation\dashboard\index-val.json" />
+    <Content Include="lib\validation\articles\index-val.json" />
+    <Content Include="lib\validation\customers\index-val.json" />
+    <Content Include="lib\languages\articles\index-lang.json" />
+    <Content Include="lib\languages\customers\index-lang.json" />
+    <Content Include="lib\languages\products\index-lang.json" />
+    <Content Include="lib\validation\products\index-val.json" />
+    <Content Include="lib\languages\dealers\index-lang.json" />
+    <Content Include="lib\languages\suppliers\index-lang.json" />
+    <Content Include="lib\validation\dealers\index-val.json" />
+    <Content Include="lib\validation\suppliers\index-val.json" />
+    <Content Include="Models\adbd.dbml">
+      <Generator>MSLinqToSQLGenerator</Generator>
+      <LastGenOutput>adbd.designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="lib\languages\products\addedit-lang.json" />
+    <Content Include="lib\validation\products\addedit-val.json" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -172,12 +235,15 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="admin\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="functions\" />
-    <Folder Include="Models\" />
-    <Folder Include="Portal\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{3259AA49-8AA1-44D3-9025-A0B520596A8C}" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\adbd.dbml.layout">
+      <DependentUpon>adbd.dbml</DependentUpon>
+    </None>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

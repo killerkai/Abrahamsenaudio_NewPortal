@@ -1,0 +1,200 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Cache-Control" content="no-cache" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" content="email=no" />
+    <title></title>
+    <script type="text/javascript" src="/lib/js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery.maskedinput.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery.scrollTo.min.js"></script>
+    <script type="text/javascript" src="/lib/js/jquery_ui_langs.js"></script>
+    <script type="text/javascript" src="/lib/js/levo2-functionlib.js"></script>
+    <script type="text/javascript" src="/lib/js/levo2-validation.js"></script>
+    <script type="text/javascript" src="/lib/js/moment-with-langs.min.js"></script>
+    <script type="text/javascript" src="/lib/languages/default.js"></script>
+    <script type="text/javascript" src="/lib/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/lib/plugins/color-picker/spectrum.js"></script>
+    <script type="text/javascript" src="/lib/plugins/flick/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/lib/plugins/highchart/highcharts.js"></script>
+    <script type="text/javascript" src="/lib/plugins/numeral/numeral.min.js"></script>
+    <script type="text/javascript" src="/lib/plugins/numeral/languages.min.js"></script>
+    <link rel="shortcut icon" href="/lib/icons/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/lib/icons/favicon.ico" type="image/x-icon">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap-social.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/color-picker/spectrum.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/flick/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/font-awesome/css/font-awesome.min.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/glyphicons/css/glyphicons.css">
+    <link type="text/css" rel="stylesheet" href="/lib/plugins/levo2fonts/style.css" />
+    <link type="text/css" rel="stylesheet" href="/lib/css/admin/default.css">
+    <link type="text/css" rel="stylesheet" id="size-stylesheet" href="/lib/css/admin/lg.css">
+    <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto" />
+    <script type="text/javascript">
+
+        //////////// TODO ////////////
+        var ObjPageContent = [];
+        var ThisPageDataId = 0;
+        var TopSliderInterval = 0;
+        var ShowLoadBoxInterval = 0;
+
+        var ThisPage = "index";
+        var AppName = "Abrahamsen Audio Portal"
+        var AppVersion = "1.1.0";
+        var AppVersionCode = "A.A.P";
+        var DebugMode = false;
+        var StyleMode = false;
+        var MasterSyncInterval = 0;
+        var MasterSyncIntervalTime = 10000;
+        var JSONValidation = {};
+        var ArrayPageSize = [];
+        var ObjPageData = {};
+        var ObjPageTransferData = {};
+        var ErrorPage = "";
+        var ErrorCode = "";
+        var ErrorText = "";
+        var PageTimeout = "";
+
+        // Language
+        var SingleNonLanguageElements = {};
+        var SingleDefaultElements = {};
+        var SingleElements = {};
+        var ObjPageLanguage = {};
+        var LanguagePage = "";
+
+        // Grid
+        var ObjPagerInfo = {};
+        var PageCount = 0;
+        var RecordCount = 0;
+
+        // Customer - User Info
+        var ThisLanguage = "";
+        var ThisToday = "";
+        var ThisFirstName = "";
+        var ThisLastName = "";
+        var ThisUserType = "";
+        var ThisUserId = "";
+
+        $(document).ready(function()
+        {          
+            ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+            adjustStyle();
+            $(window).resize(function()
+            {
+                ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
+                adjustStyle();
+                if ($('#background').is(':visible'))
+                {
+                    hideLoadboxAndBackground();
+                    showLoadboxAndBackground();
+                }
+            });
+            setNonLanguage();
+            getPage('/admin/dashboard/index.html');
+        });
+
+    </script>
+    <style>
+        body{
+        
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand"><img height="25" src="/lib/icons/logo/aa_logo256x47.png" /></a>
+            </div>
+
+            <div id="navbar" class="navbar-collapse collapse">
+
+                <ul class="nav navbar-nav navbar-left">
+
+                    <li id="menu_MenuHome"><a id="cmdMenuHome" href="javascript:void(0);"><p id="labelMenuHome"></p></a></li>
+                    <!--Product Menu-->
+                    <li id="menu_Products" class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="labelMenuProducts"></span>&nbsp;&nbsp;<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li id="menu_MenuProductsList"><a id="cmdMenuProductsList" href="javascript:void(0);"><p id="labelMenuProductsList"></p></a></li>
+                            <li id="menu_MenuProductGroup"><a id="cmdMenuProductGroup" href="javascript:void(0);"><p id="labelMenuProductGroup"></p></a></li>
+                            <li id="menu_MenuProductCategory"><a id="cmdMenuProductCategory" href="javascript:void(0);"><p id="labelMenuProductCategory"></p></a></li>
+                        </ul>
+                    </li>
+                    <li id="menu_MenuCustomers"><a id="cmdMenuCustomers" href="javascript:void(0);"><p id="labelMenuCustomers"></p></a></li>
+                    <li id="menu_MenuArticles"><a id="cmdMenuArticles" href="javascript:void(0);"><p id="labelMenuArticles"></p></a></li>
+                    <li id="menu_MenuSuppliers"><a id="cmdMenuSuppliers" href="javascript:void(0);"><p id="labelMenuSuppliers"></p></a></li>
+                    <li id="menu_MenuDealers"><a id="cmdMenuDealers" href="javascript:void(0);"><p id="labelMenuDealers"></p></a></li>
+
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="javascript:void(0);"><p id="Today"></p></a></li>
+                    <li><div class="img-avatar"><i class="fa fa-user fa-2x fa-fw" style="font-size: 1.7em; color: #A0A0A0; margin-top: 2px; margin-left: -1px;"></i></div></li>
+                    <!--2 Menues - System Menu-->
+                    <li id="menu_User" class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span id="labelMenuUserActiveUser"></span>&nbsp;&nbsp;<i class="fa fa-caret-down"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li id="menu_UserActiveUserProfile"><a id="cmdMenuActiveUserProfile" href="javascript:void(0);"><i class="fa fa-user-plus fa-lg fa-fw"></i><p id="labelMenuUserActiveUserProfile"></p></a></li>
+                            <li><a id="cmdMenuSignOut" href="javascript:void(0);"><i class="fa fa-lock fa-lg fa-fw"></i><p id="labelMenuUserSignOut"></p></a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+
+    <div id="page" style="margin-top: 60px;"></div>
+
+    <div class="modal fade" id="modalStandard">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="modalStandardTitle"></h4>
+                </div>
+                <div class="modal-body" id="modalStandardText"></div>
+                <div class="modal-body" id="modalStandardAdditional"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="modalStandardIFrame">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                    <h4 class="modal-title" id="modalStandardIFrameTitle"></h4>
+                </div>
+                <div class="modal-body">
+                    <iframe id="modal-iframe-content"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="dialog-modal" style="display: none;"></div>
+
+    <div id="dialog-modal-iframe" style="display: none;">
+        <iframe id="iframe-content"></iframe>
+    </div>
+
+</body>
+</html>

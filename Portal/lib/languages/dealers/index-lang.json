@@ -1,0 +1,18 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Dealers" ] }
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Forhandlere" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Dealers | ABRAHAMSEN AUDIO PORTAL"
+    },
+    "nb-NO": {
+      "labelPageTitle": "Forhandlere | ABRAHAMSEN AUDIO PORTAL"
+    }
+  }
+}

@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="abdb" Class="adbdDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="WebSettings" ConnectionString="Data Source=91.192.223.172;Initial Catalog=abdb;Persist Security Info=True;User ID=abdb" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="abdbConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.tblFile" Member="tblFiles">
+    <Type Name="tblFile">
+      <Column Name="FilId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="RegDato" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Filnavn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Etternavn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Filtype" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Bredde" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Hoyde" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Storrelse" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Beskrivelse" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="tblFile_tblFolderFile" Member="tblFolderFiles" ThisKey="FilId" OtherKey="FilId" Type="tblFolderFile" />
+      <Association Name="tblFile_tblProdctFile" Member="tblProdctFiles" ThisKey="FilId" OtherKey="FilId" Type="tblProdctFile" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFolder" Member="tblFolders">
+    <Type Name="tblFolder">
+      <Column Name="MappeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BrukerId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KnyttetId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Nivaa" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Mappenavn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Mappetype" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="MappeStrukturId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblFolder_tblFolderFile" Member="tblFolderFiles" ThisKey="MappeId" OtherKey="MappeId" Type="tblFolderFile" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblFolderFile" Member="tblFolderFiles">
+    <Type Name="tblFolderFile">
+      <Column Name="MappeFilId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="MappeId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FilId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblFile_tblFolderFile" Member="tblFile" ThisKey="FilId" OtherKey="FilId" Type="tblFile" IsForeignKey="true" />
+      <Association Name="tblFolder_tblFolderFile" Member="tblFolder" ThisKey="MappeId" OtherKey="MappeId" Type="tblFolder" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblLanguage" Member="tblLanguages">
+    <Type Name="tblLanguage">
+      <Column Name="LanguageId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Language" Type="System.String" DbType="NVarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="LanguageCode" Type="System.String" DbType="NVarChar(5) NOT NULL" CanBeNull="false" />
+      <Association Name="tblLanguage_tblUser" Member="tblUsers" ThisKey="LanguageId" OtherKey="LanguageId" Type="tblUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProdctFile" Member="tblProdctFiles">
+    <Type Name="tblProdctFile">
+      <Column Name="ProduktBildeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProduktId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="FilId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Sort" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TypeFil" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="tblFile_tblProdctFile" Member="tblFile" ThisKey="FilId" OtherKey="FilId" Type="tblFile" IsForeignKey="true" />
+      <Association Name="tblProduct_tblProdctFile" Member="tblProduct" ThisKey="ProduktId" OtherKey="ProduktId" Type="tblProduct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProduct" Member="tblProducts">
+    <Type Name="tblProduct">
+      <Column Name="ProduktId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProduktgruppeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ProduktkategoriId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RegDato" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="Produkt" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Pris" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ProduktNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="ProduktBeskrivelse" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Bredde" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Hoyde" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Dybde" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Vekt" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="LagerDato" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="WebStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="SlideStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="ButikkStatus" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblProduct_tblProdctFile" Member="tblProdctFiles" ThisKey="ProduktId" OtherKey="ProduktId" Type="tblProdctFile" />
+      <Association Name="tblProduct_tblProductAddOn" Member="tblProductAddOns" ThisKey="ProduktId" OtherKey="KnyttetId" Type="tblProductAddOn" />
+      <Association Name="tblProductCategory_tblProduct" Member="tblProductCategory" ThisKey="ProduktkategoriId" OtherKey="ProduktkategoriId" Type="tblProductCategory" IsForeignKey="true" />
+      <Association Name="tblProductGroup_tblProduct" Member="tblProductGroup" ThisKey="ProduktgruppeId" OtherKey="ProduktgruppeId" Type="tblProductGroup" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProductAddOn" Member="tblProductAddOns">
+    <Type Name="tblProductAddOn">
+      <Column Name="TilleggId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="KnyttetId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TilleggType" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TilleggGruppe" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TilleggTekst" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="TilleggTall" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="TilleggMerknad" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Association Name="tblProduct_tblProductAddOn" Member="tblProduct" ThisKey="KnyttetId" OtherKey="ProduktId" Type="tblProduct" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProductCategory" Member="tblProductCategories">
+    <Type Name="tblProductCategory">
+      <Column Name="ProduktkategoriId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProduktkategoriNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Produktkategori" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblProductCategory_tblProduct" Member="tblProducts" ThisKey="ProduktkategoriId" OtherKey="ProduktkategoriId" Type="tblProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProductGroup" Member="tblProductGroups">
+    <Type Name="tblProductGroup">
+      <Column Name="ProduktgruppeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProduktgruppeNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Produktgruppe" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ProduktgruppeInfo" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblProductGroup_tblProduct" Member="tblProducts" ThisKey="ProduktgruppeId" OtherKey="ProduktgruppeId" Type="tblProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblUser" Member="tblUsers">
+    <Type Name="tblUser">
+      <Column Name="BrukerId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BrukerTypeId" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="FirmaId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KnyttetId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="RegDato" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="Brukernr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Firma" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Kontaktperson" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Fornavn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Etternavn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Tittel" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Gateadresse" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Postnr1" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Sted1" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Land1" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Postadresse" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Postnr2" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Sted2" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Land2" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Telefon" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Telefaks" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Mobil" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Epost" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Web" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Foretaksnummer" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Mva" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Fodselsdato" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="Kjonn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Brukernavn" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Passord" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Lat" Type="System.Decimal" DbType="Decimal(28,15)" CanBeNull="true" />
+      <Column Name="Lng" Type="System.Decimal" DbType="Decimal(28,15)" CanBeNull="true" />
+      <Column Name="Aktiveringskode" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Innhold" Type="System.String" DbType="NVarChar(MAX)" CanBeNull="true" />
+      <Column Name="Nyhetsmail" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="KundeId" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="LanguageId" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="tblLanguage_tblUser" Member="tblLanguage" ThisKey="LanguageId" OtherKey="LanguageId" Type="tblLanguage" IsForeignKey="true" />
+      <Association Name="tblUserType_tblUser" Member="tblUserType" ThisKey="BrukerTypeId" OtherKey="BrukertypeId" Type="tblUserType" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblUserType" Member="tblUserTypes">
+    <Type Name="tblUserType">
+      <Column Name="BrukertypeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="BrukertypeNr" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="Type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Kategori" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="tblUserType_tblUser" Member="tblUsers" ThisKey="BrukertypeId" OtherKey="BrukerTypeId" Type="tblUser" />
+    </Type>
+  </Table>
+</Database>

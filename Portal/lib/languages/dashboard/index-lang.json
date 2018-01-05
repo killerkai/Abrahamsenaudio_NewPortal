@@ -1,0 +1,41 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Dashboard" ] },
+      { "labelMenuUserSignOut": [ "id", "text", "Sign Out" ] },
+      { "labelMenuHome": [ "id", "text", "Dashboard" ] },
+      { "labelMenuProducts": [ "id", "text", "Products" ] },
+      { "labelMenuProductsList": [ "id", "text", "Products List" ] },
+      { "labelMenuProductGroup": [ "id", "text", "Product Group" ] },
+      { "labelMenuProductCategory": [ "id", "text", "Product Category" ] },
+      { "labelMenuCustomers": [ "id", "text", "Customers" ] },
+      { "labelMenuArticles": [ "id", "text", "Articles" ] },
+      { "labelMenuSuppliers": [ "id", "text", "Suppliers" ] },
+      { "labelMenuDealers": [ "id", "text", "Dealers" ] },      
+      { "labelMenuUserActiveUserProfile": [ "id", "text", "User Profile" ] }
+
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Dashboard" ] },
+      { "labelMenuUserSignOut": [ "id", "text", "Logg Ut" ] },
+      { "labelMenuHome": [ "id", "text", "Dashboard" ] },
+      { "labelMenuProducts": [ "id", "text", "Produkter" ] },
+      { "labelMenuProductsList": [ "id", "text", "Produkt Liste" ] },
+      { "labelMenuProductGroup": [ "id", "text", "produktgruppe" ] },
+      { "labelMenuProductCategory": [ "id", "text", "produktkategori" ] },
+      { "labelMenuCustomers": [ "id", "text", "Kunder" ] },
+      { "labelMenuArticles": [ "id", "text", "Artikkeler" ] },
+      { "labelMenuSuppliers": [ "id", "text", "Leverandører" ] },
+      { "labelMenuDealers": [ "id", "text", "Forhandlere" ] },
+      { "labelMenuUserActiveUserProfile": [ "id", "text", "Brukerprofil" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Dashboard | ABRAHAMSEN AUDIO PORTAL"
+    },
+    "nb-NO": {
+      "labelPageTitle": "Dashboard | ABRAHAMSEN AUDIO PORTAL"
+    }
+  }
+}

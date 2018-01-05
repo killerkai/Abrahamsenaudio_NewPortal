@@ -8,6 +8,11 @@ body
     font-family: 'Roboto', sans-serif;
     font-size: 14.5px !important;
     background-color: #f8f8f8;
+	-webkit-touch-callout: none;
+        -webkit-user-select: none;    
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;	
 }
 
 .table-levo2

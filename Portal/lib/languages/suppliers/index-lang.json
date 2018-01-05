@@ -1,0 +1,18 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Suppliers" ] }
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Leverandører" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Suppliers | ABRAHAMSEN AUDIO PORTAL"
+    },
+    "nb-NO": {
+      "labelPageTitle": "Leverandører | ABRAHAMSEN AUDIO PORTAL"
+    }
+  }
+}

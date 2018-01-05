@@ -1,0 +1,56 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "labelLegend": [ "id", "text", "Product info" ] },
+      { "labelProductGruppeId": [ "id", "text", "Product group:" ] },
+      { "ProductGroupOption": [ "id", "text", "Select..." ] },
+      { "labelProduktkategoriId": [ "id", "text", "Product category:" ] },
+      { "ProductCategoryOption": [ "id", "text", "Select..." ] },
+      { "labelProdukt": [ "id", "text", "Product name:" ] },
+      { "labelPris": [ "id", "text", "Price:" ] },
+      { "labelBredde": [ "id", "text", "Width:" ] },
+      { "labelHoyde": [ "id", "text", "Height:" ] },
+      { "labelDybde": [ "id", "text", "Depth:" ] },
+      { "labelVekt": [ "id", "text", "Weight:" ] },
+      { "labelProduktBeskrivelse": [ "id", "text", "Description:" ] },
+      { "cmdAddOns": [ "id", "htmlembedded", "AddOns" ] },
+      { "cmdNewAddOns": [ "id", "htmlembedded", "Add" ] },
+      { "newAddOnName": [ "id", "placeholder", "Name" ] },
+      { "newAddOnVal": [ "id", "placeholder", "Spesification" ] }
+    ],
+    "nb-NO": [
+      { "labelLegend": [ "id", "text", "Produktinfo" ] },
+      { "labelProductGruppeId": [ "id", "text", "Produkt gruppe:" ] },
+      { "ProductGroupOption": [ "id", "text", "Velg..." ] },
+      { "labelProduktkategoriId": [ "id", "text", "Produkt kategori:" ] },
+      { "labelProdukt": [ "id", "text", "Produktnavn:" ] },
+      { "labelPris": [ "id", "text", "Pris:" ] },
+      { "labelBredde": [ "id", "text", "Bredde:" ] },
+      { "labelHoyde": [ "id", "text", "Høyde:" ] },
+      { "labelDybde": [ "id", "text", "Dybde:" ] },
+      { "labelVekt": [ "id", "text", "Vekt:" ] },
+      { "labelProduktBeskrivelse": [ "id", "text", "Beskrivelse:" ] },
+      { "cmdAddOns": [ "id", "htmlembedded", "Tillegg" ] },
+      { "cmdNewAddOns": [ "id", "htmlembedded", "Legg til" ] },
+      { "newAddOnName": [ "id", "placeholder", "Navn" ] },
+      { "newAddOnVal": [ "id", "placeholder", "Spesifikasjon" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Producter | Abrahamsen Audio",
+      "admin-user-addedit-title": "Producter",
+      "admin-user-addedit-text": "",
+      "ProduktSubmitError": "Product name is empty (Min. 3 char) or contains invalid characters.",
+      "AddOnsEmpty": "Enter Name and spesification."
+
+    },
+    "nb-NO": {
+      "labelPageTitle": "Produkter | Abrahamsen Audio",
+      "admin-user-addedit-title": "Produkter",
+      "admin-user-addedit-text": "",
+      "ProduktSubmitError": "Produktnavn er tomt (Minst 3 tegn) eller inneholder ugyldige tegn.",
+      "AddOnsEmpty": "Fyll inn navn og spesifikasjon."
+    }
+  }
+}
