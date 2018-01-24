@@ -96,7 +96,7 @@
                         $("#ProductTillegg").append("");
                         $.each(ObjProductData._ProductAddOnsData, function(i, ProductTillegg)
                         {
-                            _HTML += '<div id="' + ProductTillegg.TilleggId + '" class="col-sm-4 col-md-3 ProductTillegg">';
+                            _HTML += '<div id="' + ProductTillegg.TilleggId + '" class="col-sm-4 col-md-3 ProductTillegg tilleggrad">';
                             _HTML += '<div class="form-group">';
                             _HTML += '<label for="' + ProductTillegg.TilleggGruppe + '" class="tilleggruppe">' + ProductTillegg.TilleggGruppe + '</label>';
                             _HTML += '<input type="text" value="' + ProductTillegg.TilleggTekst + '" class="form-control input-sm AddOns tilleggtekst" id="' + ProductTillegg.TilleggGruppe + '">';
@@ -128,7 +128,7 @@
     }
 
     function setContentInfo()
-    {
+    {        
         $("#newAddOn").hide();
         $("#cmdAddOns").click(function()
         {
@@ -161,7 +161,7 @@
             else
             {
                 _HTML = "";
-                _HTML += '<div class="col-sm-4 col-md-3 ProductTillegg">';
+                _HTML += '<div class="col-sm-4 col-md-3 ProductTillegg tilleggrad">';
                 _HTML += '<div class="form-group">';
                 _HTML += '<label for="' + newAddOnName + '" class="tilleggruppe">' + newAddOnName + '</label>';
                 _HTML += '<input type="text" value="' + newAddOnVal + '" class="form-control input-sm AddOns tilleggtekst" id="' + newAddOnVal + '">';
@@ -172,13 +172,23 @@
                 $("#newAddOnName").focus();
                 CountAddon = CountAddon + 1;
                 $("#AddOnsBadge").text(CountAddon);
-                $("#ProductTillegg").append(_HTML);                
-                $('body').animate({ scrollTop: $(document).height() + $(window).height() });                
-                console.log(JSON.stringify(ObjProductData));                
-                setValidation("#frmReg");
+                $("#ProductTillegg").append(_HTML);
+                $('body').animate({ scrollTop: $(document).height() + $(window).height() });
+                $(".tilleggrad").draggable({
+                    revert: function(event, ui)
+                    {
+                        $(this).data("uiDraggable").originalPosition = {
+                            top: 0,
+                            left: 0
+                        };
+                        return !event;
+                    }
+                });
+                setValidation("#frmReg");                
                 validateDirty();
             }
         });
+        
         $('.sticky').addClass('fixed-header');
         formdirty = false;
         setDefaultLanguage(ThisLanguage);
@@ -188,6 +198,42 @@
         FormStyle("#frmReg");
         $("#page").fadeIn(100);
         window.setTimeout(function() { hideLoadboxAndBackground(); hideBackground(); }, 100);
+        $(".tilleggrad").draggable({
+            revert: function(event, ui)
+            {
+                $(this).data("uiDraggable").originalPosition = {
+                    top: 0,
+                    left: 0
+                };
+                return !event;
+            }
+        });
+        $('#deletediv').droppable({
+            drop: function(event, ui)
+            {
+                $(ui.draggable).remove();
+                var tilleggid = ui.draggable.attr("id");
+                $(this).css("background-color", "white");                
+                if (tilleggid)
+                {
+                    slettTillegg(tilleggid);                    
+                }
+                else
+                {                    
+                    CountAddon = CountAddon - 1;
+                    $("#AddOnsBadge").text(CountAddon);
+                }
+            },
+            over: function()
+            {
+                $(this).css("background-color", "red");
+            },
+            out: function()
+            {
+                $(this).css("background-color", "white");
+            }
+
+        });
     }
 
     function validateDirty()
@@ -215,6 +261,53 @@
     {
         window.top.closeProductDialogiFrame(false);
     }
+    function slettTillegg(tilleggid)
+    {
+        if (tilleggid)
+        {
+            var _OutputElements = {};
+            var _ObjProductData = {};
+            _OutputElements.TransferType = "deleteadons";
+            _ObjProductData.tilleggid = tilleggid;
+            _OutputElements["ProductData"] = _ObjProductData;            
+            console.log(JSON.stringify(_OutputElements));
+            $.ajaxSetup({ cache: false });
+            $.ajax(
+            {
+                url: "/api/admin/productcrud",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(_OutputElements),
+                contentType: "application/json; charset=utf-8",
+                timeout: 15000
+            }).done(function(data, textStatus, jqXHR)
+            {
+                if (jqXHR.status == 200)
+                {
+                    if (data.Transfer == 200)
+                    {                        
+                        CountAddon = CountAddon - 1;
+                        $("#AddOnsBadge").text(CountAddon);
+                    }
+                    else if (data.Transfer == 302)
+                    {
+                        window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.EmailUsernameExists); }, 200);
+                    }
+                    else
+                    {
+                        setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:data.Transfer:" + data.Transfer, "StoreData");
+                    }
+                }
+            }).always(function(jqXHR, textStatus, errorThrown)
+            {
+                if (jqXHR.status != undefined)
+                {
+                    setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:jqXHR.status:" + jqXHR.status, "StoreData");
+
+                }
+            });
+        }        
+    }
 
     function verifySubmit(ClickedButton)
     {
@@ -225,62 +318,63 @@
             var _ListTillegg = [];
             $('.ProductTillegg').each(function()
             {
+                var Tilleggid = null;
+                if (this.id != "")
+                {
+                    Tilleggid = Number(this.id);
+                }
                 _ListTillegg.push(
                 {
-                    TilleggId: this.id,
+                    TilleggId: Tilleggid,
                     TilleggGruppe: encodeURIComponent($(".tilleggruppe", this).text()),
                     TilleggTekst: encodeURIComponent($(".tilleggtekst", this).val())
                 });
             });
-            _ObjForm.ProduktId = Number(ObjPageTransferData.ProductId);            
+            _ObjForm.ProduktId = Number(ObjPageTransferData.ProductId);
             _OutputElements.TransferType = "updateproduct";
             _OutputElements.Tillegg = _ListTillegg;
-            _OutputElements.Tillegg = _ListTillegg;
+            _OutputElements.ProductData = _ObjForm;            
+            $.ajaxSetup({ cache: false });
+            $.ajax(
+            {
+                url: "/api/admin/productcrud",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(_OutputElements),
+                contentType: "application/json; charset=utf-8",
+                timeout: 15000
+            }).done(function(data, textStatus, jqXHR)
+            {
+                if (jqXHR.status == 200)
+                {
+                    if (data.Transfer == 200)
+                    {
+                        if (ClickedButton == "cmdSubmit")
+                        {
+                            window.top.closeProductDialogiFrame(true);
+                        }
+                        else
+                        {
+                            getPage('/admin/products/edit.html');
+                        }
+                    }
+                    else if (data.Transfer == 302)
+                    {
+                        window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.EmailUsernameExists); }, 200);
+                    }
+                    else
+                    {
+                        setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:data.Transfer:" + data.Transfer, "StoreData");
+                    }
+                }
+            }).always(function(jqXHR, textStatus, errorThrown)
+            {
+                if (jqXHR.status != undefined)
+                {
+                    setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:jqXHR.status:" + jqXHR.status, "StoreData");
 
-
-            console.log(JSON.stringify(_ListTillegg));
-
-            //$.ajaxSetup({ cache: false });
-            //$.ajax(
-            //{
-            //    url: "/api/admin/productcrud",
-            //    type: "POST",
-            //    dataType: "json",
-            //    data: JSON.stringify(_OutputElements),
-            //    contentType: "application/json; charset=utf-8",
-            //    timeout: 15000
-            //}).done(function(data, textStatus, jqXHR)
-            //{
-            //    if (jqXHR.status == 200)
-            //    {
-            //        if (data.Transfer == 200)
-            //        {
-            //            if (ClickedButton == "cmdSubmit")
-            //            {
-            //                window.top.closeProductDialogiFrame(true);
-            //            }
-            //            else
-            //            {
-            //                getPage('/admin/products/edit.html');
-            //            }
-            //        }
-            //        else if (data.Transfer == 302)
-            //        {
-            //            window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.EmailUsernameExists); }, 200);
-            //        }
-            //        else
-            //        {
-            //            setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:data.Transfer:" + data.Transfer, "StoreData");
-            //        }
-            //    }
-            //}).always(function(jqXHR, textStatus, errorThrown)
-            //{
-            //    if (jqXHR.status != undefined)
-            //    {
-            //        setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:jqXHR.status:" + jqXHR.status, "StoreData");
-
-            //    }
-            //});
+                }
+            });
         }
     }
 
@@ -293,6 +387,18 @@
         left: 0;
         width: 100%;
         z-index: 10;
+    }
+    #deletediv img
+    {
+        margin-left: auto;
+	    margin-right: auto;
+	    display: block;
+    }
+    #deletediv
+    {
+       border-style: groove;
+       border-width: 1px;
+       border-color: #f5f7f3;
     }
 </style>
 <body>
@@ -341,7 +447,6 @@
             </div>
             <div class="row" style="margin: 2px;">
                 <div class="col-sm-12" style="top: 50px;">
-
                     <fieldset>
                         <legend id="labelLegend"></legend>
 
@@ -400,7 +505,8 @@
                         <div class="col-sm-12 col-md-12">
                             <div class="form-group">
                                 <label for="ProduktBeskrivelse" id="labelProduktBeskrivelse"></label>
-                                <textarea rows="6" cols="50" type="text" class="form-control input-sm ProductInfo" id="ProduktBeskrivelse"></textarea>
+                                <input type="text" class="form-control input-sm ProductInfo" id="ProduktBeskrivelse">
+                                <!--<textarea rows="6" cols="50" type="text" class="form-control input-sm ProductInfo" id="ProduktBeskrivelse"></textarea>-->
                             </div>
                         </div>
                         <div class="row">
@@ -412,7 +518,8 @@
                                     <tr>
                                         <td>
                                             <div class="collapse" id="collapseTillegg">
-                                                <div class="card card-body" id="ProductTillegg"></div>
+                                                <div id="deletediv"><img id="deleteicon" src="/lib/icons/Delete_Icon.png" height="26" width="28"></div>
+                                                <div class="card card-body" style="padding-top: 20px;" id="ProductTillegg"></div>
                                                 <div class="col-sm-12"><a><i class="removespes glyphicon glyphicon-minus"></i><i class="addspes glyphicon glyphicon-plus"></i><p class="newspes"></p></a></div>
                                                 <div class="row" id="newAddOn">
                                                     <div class="col-sm-4" style="padding: 10px;"></div>

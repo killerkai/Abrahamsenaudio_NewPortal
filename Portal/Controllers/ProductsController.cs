@@ -35,7 +35,8 @@
                     {
                         TransferType = input.TransferType,
                         ObjProductGridSettings = input.ProductGridSettings,
-                        ObjProductData = input.ProductData
+                        ObjProductData = input.ProductData,
+                        ObjProductTillegg = input.Tillegg
                     };
                     
                     _ReturnProductCrudData = productcrud.getProductCrud();
@@ -64,6 +65,7 @@
         public string TransferType { get; set; }
         public ProductGridSettingsClass ProductGridSettings { get; set; }
         public ProductClass ProductData { get; set; }
+        public List<ProductAddOnsClass> Tillegg { get; set; }
     }
 
     public class ProductGridSettingsClass

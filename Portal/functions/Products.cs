@@ -27,13 +27,14 @@ namespace Portal.Functions
         private string _TransferType;
         private ProductGridSettingsClass _ObjProductGridSettings;
         private ProductClass _ObjProductData;
-
+        private List<ProductAddOnsClass> _ObjProductTillegg;
 
         public string TransferType { get { return this._TransferType; } set { this._TransferType = value; } }
         public ProductGridSettingsClass ObjProductGridSettings { get { return this._ObjProductGridSettings; } set { this._ObjProductGridSettings = value; } }
         public ProductClass ObjProductData { get { return this._ObjProductData; } set { this._ObjProductData = value; } }
+        public List<ProductAddOnsClass> ObjProductTillegg { get { return this._ObjProductTillegg; } set { this._ObjProductTillegg = value; } }
 
-
+        
         public ProductCrudClass()
         {
             _ReturnProductCrud = new ReturnProductCrudClass();
@@ -75,6 +76,9 @@ namespace Portal.Functions
                     break;
                 case "updateproductbutikkstatus":
                     _SwitchReturn = updateProductButikkStatus();
+                    break;
+                case "deleteadons":
+                    _SwitchReturn = deleteAddons();
                     break;
                 default:
                     _SwitchReturn = null;
@@ -261,7 +265,7 @@ namespace Portal.Functions
                                                                              where ProductAddOn.KnyttetId == Product.ProduktId
                                                                              orderby ProductAddOn.TilleggGruppe
                                                                              select new ProductAddOnsClass()
-                                                                             {
+                                                                             {                                                                                 
                                                                                  TilleggId = ProductAddOn.TilleggId,
                                                                                  TilleggGruppe = ProductAddOn.TilleggGruppe != "" ? ProductAddOn.TilleggGruppe : "",
                                                                                  TilleggTekst = ProductAddOn.TilleggTekst != "" ? ProductAddOn.TilleggTekst : ""
@@ -315,11 +319,68 @@ namespace Portal.Functions
             _ObjCurrentProduct.ProduktBeskrivelse = Uri.UnescapeDataString(_ObjProductData.ProduktBeskrivelse);
 
             _Flib.db.SubmitChanges();
+            
+            foreach (var _CurrentProductTillegg in _ObjProductTillegg)
+            {
+                if (_CurrentProductTillegg.TilleggId > 0)
+                {
+                    tblProductAddOn _CurrentProductTilleggRad = _Flib.db.tblProductAddOns.Where(u => u.TilleggId == _CurrentProductTillegg.TilleggId).SingleOrDefault();
+                    _CurrentProductTilleggRad.TilleggTekst = Uri.UnescapeDataString(_CurrentProductTillegg.TilleggTekst);
+                }
+                else
+                {
+                    var _objNewProductAddOn = new tblProductAddOn()
+                    {
+                        KnyttetId = _ObjProductData.ProduktId,
+                        TilleggGruppe = Uri.UnescapeDataString(_CurrentProductTillegg.TilleggGruppe),
+                        TilleggTekst = Uri.UnescapeDataString(_CurrentProductTillegg.TilleggTekst)                        
+                    };
+                    _Flib.db.tblProductAddOns.InsertOnSubmit(_objNewProductAddOn);
+                }
+                _Flib.db.SubmitChanges();
+            }
+            
 
-            _ReturnProductCrud.Transfer = 200;
+
+                _ReturnProductCrud.Transfer = 200;
             return _ReturnProductCrud;
 
         }
+        private ReturnProductCrudClass deleteAddons()
+        {
+            if (_ObjProductData != null)
+            {
+                tblProductAddOn _ObjCurrentProductAddon = _Flib.db.tblProductAddOns.Where(u => u.TilleggId == _ObjProductData.tilleggid).SingleOrDefault();
+                if (_ObjCurrentProductAddon != null)
+                {
+                    
+                        _Flib.db.tblProductAddOns.DeleteOnSubmit(_ObjCurrentProductAddon);
+                        _ReturnCode = 200;
+                   
+
+                }
+                else
+                {
+                    _ReturnCode = 404;
+                }
+            }
+            else
+            {
+                _Return = false;
+            }
+            // Return
+            if (_Return == true)
+            {
+                _Flib.db.SubmitChanges();
+                _ReturnProductCrud.Transfer = _ReturnCode;
+            }
+            else
+            {
+                _ReturnProductCrud.Transfer = 500;
+            }
+            return _ReturnProductCrud;
+        }
+    
         private ReturnProductCrudClass deleteProduct()
         {
             if (_ObjProductData != null)
@@ -558,7 +619,8 @@ namespace Portal.Functions
 
         public class ProductClass
         {            
-            public int ProduktId { get; set; }            
+            public int ProduktId { get; set; }
+            public int tilleggid { get; set; }
             public int ProductGruppeId { get; set; }
             public int ProduktkategoriId { get; set; }
             public DateTime? RegDato { get; set; }
@@ -583,7 +645,7 @@ namespace Portal.Functions
 
         public class ProductAddOnsClass
         {
-            public int TilleggId { get; set; }
+            public int? TilleggId { get; set; }            
             public string TilleggGruppe { get; set; }
             public string TilleggTekst { get; set; }
         }

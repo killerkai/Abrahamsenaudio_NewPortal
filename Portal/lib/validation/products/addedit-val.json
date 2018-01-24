@@ -61,7 +61,7 @@
     "datatype": "string"
   },
   "AddOns": {
-    "label": "optional",
+    "label": "mandatory",
     "data-attr": "val",
     "class": "validate validate-alpha",
     "datatype": "string"

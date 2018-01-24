@@ -56,7 +56,8 @@
       "spanPageLabelAddProduct": "Add product",
       "ProductNotFound": "No product found. Please try again. If this error persists please contact the Administration.",
       "ProductDataExistsDisabled": "Due to different information associated with the product, this product can not be deleted.",
-      "ProductGroupLable": "Select group, All"
+      "ProductGroupLable": "Select group, All",
+      "AddOnsDeleted":  "AddOns Deleted"
     },
     "nb-NO": {
       "labelPageTitle": "Produkter | ABRAHAMSEN AUDIO PORTAL",
@@ -66,7 +67,8 @@
       "spanPageLabelAddProduct": "Registrer produkt",
       "ProductNotFound": "Ingen produkt funnet. Vennligst prøv på nytt. Hvis denne feilen vedvarer, vennligst kontakt administrasjonen.",
       "ProductDataExistsDisabled": "På grunn av forskjellig informasjon knyttet til produktet, kan produktet ikke slettes.",
-      "ProductGroupLable": "Velg gruppe, Alle"
+      "ProductGroupLable": "Velg gruppe, Alle",
+      "AddOnsDeleted": "Tillegg slettet"
     }
   }
 }
