@@ -1,0 +1,14 @@
+{
+  "ProduktkategoriNr": {
+    "label": "optional",
+    "data-attr": "val",
+    "class": "validate validate-numeric",
+    "datatype": "int"
+  },
+  "Produktkategori": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  }
+}

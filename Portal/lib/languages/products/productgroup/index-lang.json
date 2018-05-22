@@ -1,0 +1,48 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Product Group" ] },
+      { "cmdResetFilter": [ "id", "text", "Reset filter" ] },
+      { "cmdAddNew": [ "id", "htmlembedded", "New Product Group" ] },
+      { "labelLegendFilter": [ "id", "text", "Filter" ] },
+      { "labelSearchText": [ "id", "text", "Search:" ] },
+      { "SearchText": [ "id", "placeholder", "Product Group" ] },
+      { "labelFilterStatus": [ "id", "text", "Status" ] },
+      { "labelFilterStatusAktive": [ "id", "text", "Active" ] },
+      { "labelFilterStatusDisabled": [ "id", "text", "Disabled" ] },
+      { "labelEdit": [ "id", "text", "Edit" ] },
+      { "labelStatus": [ "id", "text", "Status" ] },
+      { "labelDelete": [ "id", "text", "Delete" ] },
+      { "trEdit": [ "class", "title", "Double-click to edit" ] },
+      { "cmdEdit": [ "class", "title", "Click to edit" ] },
+      { "cmdStatus": [ "class", "title", "Click to change status" ] },
+      { "cmdDelete": [ "class", "title", "Click to delete" ] }
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Produktgruppe" ] },
+      { "cmdResetFilter": [ "id", "text", "Reset filtrering" ] },
+      { "cmdAddNew": [ "id", "htmlembedded", "Ny Produktgruppe" ] },
+      { "labelLegendFilter": [ "id", "text", "Filtrering" ] },
+      { "labelSearchText": [ "id", "text", "Søk:" ] },
+      { "SearchText": [ "id", "placeholder", "Produktgruppe" ] },
+      { "labelFilterStatus": [ "id", "text", "Status" ] },
+      { "labelFilterStatusAktive": [ "id", "text", "Aktiv" ] },
+      { "labelFilterStatusDisabled": [ "id", "text", "Deaktiv" ] },
+      { "labelEdit": [ "id", "text", "Endre" ] },
+      { "labelStatus": [ "id", "text", "Status" ] },
+      { "labelDelete": [ "id", "text", "Slett" ] },
+      { "trEdit": [ "class", "title", "Dobbeltklikk for å endre" ] },
+      { "cmdEdit": [ "class", "title", "Klikk for å endre" ] },
+      { "cmdStatus": [ "class", "title", "Klikk for å endre status" ] },
+      { "cmdDelete": [ "class", "title", "Klikk for å slett" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Product Group | ABRAHAMSEN AUDIO PORTAL"
+    },
+    "nb-NO": {
+      "labelPageTitle": "Produktgruppe | ABRAHAMSEN AUDIO PORTAL"
+    }
+  }
+}

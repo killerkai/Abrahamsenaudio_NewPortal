@@ -13,7 +13,8 @@
       { "labelDybde": [ "id", "text", "Depth:" ] },
       { "labelVekt": [ "id", "text", "Weight:" ] },
       { "labelProduktBeskrivelse": [ "id", "text", "Description:" ] },
-      { "cmdAddOns": [ "id", "htmlembedded", "AddOns" ] },
+      { "labelLagerDato": [ "id", "text", "Expected in stock:" ] },
+      { "cmdAddOns": [ "id", "htmlembedded", "Specifications" ] },
       { "cmdNewAddOns": [ "id", "htmlembedded", "Add" ] },
       { "newAddOnName": [ "id", "placeholder", "Name" ] },
       { "newAddOnVal": [ "id", "placeholder", "Spesification" ] }
@@ -30,7 +31,8 @@
       { "labelDybde": [ "id", "text", "Dybde:" ] },
       { "labelVekt": [ "id", "text", "Vekt:" ] },
       { "labelProduktBeskrivelse": [ "id", "text", "Beskrivelse:" ] },
-      { "cmdAddOns": [ "id", "htmlembedded", "Tillegg" ] },
+      { "labelLagerDato": [ "id", "text", "Ventes inn på lager:" ] },
+      { "cmdAddOns": [ "id", "htmlembedded", "Spesifikasjoner" ] },
       { "cmdNewAddOns": [ "id", "htmlembedded", "Legg til" ] },
       { "newAddOnName": [ "id", "placeholder", "Navn" ] },
       { "newAddOnVal": [ "id", "placeholder", "Spesifikasjon" ] }

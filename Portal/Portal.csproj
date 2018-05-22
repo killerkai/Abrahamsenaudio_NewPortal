@@ -103,6 +103,10 @@
     <Content Include="admin\products\add.html" />
     <Content Include="admin\products\edit.html" />
     <Content Include="admin\products\index.html" />
+    <Content Include="admin\products\productcategory\add.html" />
+    <Content Include="admin\products\productcategory\edit.html" />
+    <Content Include="admin\products\productcategory\index.html" />
+    <Content Include="admin\products\productgroup\index.html" />
     <Content Include="admin\suppliers\index.html" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
@@ -227,6 +231,13 @@
     </Content>
     <Content Include="lib\languages\products\addedit-lang.json" />
     <Content Include="lib\validation\products\addedit-val.json" />
+    <Content Include="lib\validation\products\productcategory\index-val.json" />
+    <Content Include="lib\validation\products\productgroup\index-val.json" />
+    <Content Include="lib\languages\products\productcategory\index-lang.json" />
+    <Content Include="lib\languages\products\productgroup\index-lang.json" />
+    <Content Include="lib\languages\products\productcategory\addedit-lang.json" />
+    <Content Include="lib\validation\products\productcategory\addedit-val.json" />
+    <None Include="Properties\PublishProfiles\Portal.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

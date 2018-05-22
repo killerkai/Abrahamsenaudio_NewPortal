@@ -1,0 +1,245 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+
+    var LanguagePage = "/lib/languages/products/productgroup/index-lang.json";
+    var ValidationPage = "/lib/validation/products/productgroup/index-val.json";
+    var ThisPage = "admin/products/index";
+    var ModalHelpPath = "admin-products-index";
+
+    var PageCurrent = 1;
+    var PageSize = 10;
+    var SearchClause = "";
+    var OrderByClause = "Produkt ASC";
+    var ObjProductData = [];
+    var thisAJAX = null;
+    var ProductStatus = 1;
+
+    function getContentInfo()
+    {
+        getLanguage(LanguagePage, function(Response)
+        {
+            if (Response == 200)
+            {
+                setPageLanguage(ThisLanguage);
+                getValidation(ValidationPage, function(Response)
+                {
+                    if (Response == 200)
+                    {
+                        getContentData();
+                    }
+                    else
+                    {
+                        setError("getpage", "/admin/products/index.html", ThisPage, "getValidation", "Validation");
+
+                    }
+                });
+            }
+            else
+            {
+                setError("getpage", "/admin/products/index.html", ThisPage, "getLanguage", "Language");
+            }
+        });
+    }
+    function getContentData()
+    {
+        setContentInfo();
+    }
+    function setContentInfo()
+    {
+        setDefaultLanguage(ThisLanguage);
+        setPageLanguage(ThisLanguage);
+        setTableSorterMouseOver(true);
+        setGridFunctions("#frmProductsReg");
+        setValidation("#frmProductsReg");
+        setCSSInlineStyle("#frmProductsReg");
+        FormStyle("#frmProductsReg");
+        $("#page").fadeIn(100);
+        window.setTimeout(function() { hideLoadboxAndBackground(); hideBackground(); }, 100);
+    }
+</script>
+
+<form id="frmProductsReg">
+    <div class="wrappers">
+
+        <div class="row">
+            <div class="col-sm-12">
+
+                <div class="panel panel-default fau-all-marginBottom-7px">
+                    <div class="panel-heading">
+
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <table align="left">
+                                        <tr>
+                                            <td><span class="panel-title" id="spanPageLabel"></span></td>
+                                            <td class="divider"></td>
+                                            <td><button type="button" class="btn btn-danger btn-xs btn-block btn-shadow" id="cmdResetFilter"></button></td>
+                                            <td class="divider"></td>
+                                            <td><button type="button" class="btn btn-primary btn-block btn-xs btn-shadow" id="cmdAddNew"><i class="fa fa-pencil-square-o fa-lg fa-fw au-all-marginRight-4px"></i></button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table align="right">
+                                        <tr>
+                                            <td><button type="button" class="btn btn-info btn-xs btn-shadow help" id="cmdHelp"><i class="fa fa-question-circle fa-lg"></i></button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12 fau-all-marginBottom-70px">
+
+                <table width="100%">
+                    <tr>
+                        <td valign="top" width="237px">
+
+                            <table id="table-filter">
+                                <tr>
+                                    <td valign="top">
+
+                                        <div class="panel panel-default fau-all-width-230px fau-all-marginBottom-0px">
+                                            <div class="panel-body">
+
+                                                <fieldset class="fieldset-level-group fau-all-padding-7px">
+                                                    <legend id="labelLegendFilter"></legend>
+
+                                                    <table class="table-levo2 td-padding4-bottom">                                                        
+                                                        <tr>
+                                                            <td class="fau-all-paddingTop-4px" id="labelSearchText"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <input id="SearchText" class="form-control input-sm" type="text">
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td id="labelFilterStatus"></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <table>
+                                                                    <tr>
+                                                                        <td class="fau-all-paddingRight-7px" id="labelFilterStatusAktive"></td>
+                                                                        <td align="center"><div class="td-filter fau-all-width-22px fau-all-height-22px"><input data-productstatus="1" class="chkProductStatus" type="radio" name="ProductStatus"></div></td>
+                                                                        <td class="fau-all-paddingLeft-7px fau-all-paddingRight-7px" id="labelFilterStatusDisabled"></td>
+                                                                        <td align="center"><div class="td-filter fau-all-width-22px fau-all-height-22px"><input data-productstatus="0" class="chkProductStatus" type="radio" name="ProductStatus"></div></td>
+                                                                    </tr>
+                                                                </table>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+
+                                                </fieldset>
+
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </td>
+                        <td valign="top">
+
+                            <div class="panel panel-default grid-panel">
+                                <div class="panel-body">
+
+                                    <table class="grid-table">
+                                        <tr>
+                                            <td>
+                                                <table class="grid-header grid-table">
+                                                    <tr height="32px">
+                                                        <td width="10px"></td>
+                                                        <td width="60px" align="center"><i class="fa fa-picture-o fa-lg fa-fw"></i></td>
+                                                        <td class="divider"></td>
+                                                        <td width="100px" class="header" id="labelProductName"></td>
+                                                        <td class="divider"></td>
+                                                        <td class="header" id="labelProductCategory"></td>
+                                                        <td class="divider"></td>
+                                                        <td width="120px" id="labelAdvertisingSlider"></td>
+                                                        <td class="divider"></td>
+                                                        <td width="120px" id="labelShowWeb"></td>
+                                                        <td class="divider"></td>
+                                                        <td width="120px" id="labelShowStore"></td>
+                                                        <td class="divider"></td>
+                                                        <td width="60px" align="center" id="labelEdit"></td>
+                                                        <td width="5px"></td>
+                                                        <td width="60px" align="center" id="labelStatus"></td>
+                                                        <td width="5px"></td>
+                                                        <td width="60px" align="center" id="labelDelete"></td>
+                                                        <td width="10px"></td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td height="340px" valign="top">
+                                                <table id="gridTable" class="grid-table" style="table-layout: fixed;"></table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table class="ui-widget-header grid-table">
+                                                    <tr>
+                                                        <td>
+                                                            <table>
+                                                                <tr height="32px">
+                                                                    <td align="center" width="10px"></td>
+                                                                    <td align="center" width="80px"><button type="button" class="btn btn-primary btn-xs btn-shadow btn-block firstgridpage" id="cmdFirstGridPage"><i class="fa fa-caret-left fa-lg fa-fw"></i></button></td>
+                                                                    <td align="center" width="5px"></td>
+                                                                    <td align="center" width="80px"><button type="button" class="btn btn-primary btn-xs btn-shadow btn-block previousgridpage" id="cmdPreviousGridPage"></button></td>
+                                                                    <td align="center" width="5px"></td>
+                                                                    <td align="center" width="80px"><button type="button" class="btn btn-primary btn-xs btn-shadow btn-block nextgridpage" id="cmdNextGridPage"></button></td>
+                                                                    <td align="center" width="5px"></td>
+                                                                    <td align="center" width="80px"><button type="button" class="btn btn-primary btn-xs btn-shadow btn-block lastgridpage" id="cmdLastGridPage"></button></td>
+                                                                    <td align="center" width="10px"></td>
+                                                                    <td align="center" width="50px" id="labelGridPage"></td>
+                                                                    <td align="center" width="30px" id="GridPageCurrent"></td>
+                                                                    <td align="center" width="30px" id="labelOfGridPage"></td>
+                                                                    <td align="center" width="30px" id="GridPageCount"></td>
+                                                                    <td align="center" width="70px">
+                                                                        <select id="GridPageSize" class="grid-page-size">
+                                                                            <option value="10">10</option>
+                                                                            <option value="20">20</option>
+                                                                            <option value="30">30</option>
+                                                                            <option value="40">40</option>
+                                                                            <option value="50">50</option>
+                                                                        </select>
+                                                                    </td>
+                                                                    <td align="center" width="120px" id="labelCountPerPage"></td>
+                                                                </tr>
+                                                            </table>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                </div>
+                                <div class="panel-footer">
+
+                                    <div id="GridInfoText"></div>
+
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+</form>

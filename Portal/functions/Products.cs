@@ -80,6 +80,18 @@ namespace Portal.Functions
                 case "deleteadons":
                     _SwitchReturn = deleteAddons();
                     break;
+                case "readproductkategorigrid":
+                    _SwitchReturn = readProductKategoriGrid();
+                    break;
+                case "updateproductcategorystatus":
+                    _SwitchReturn = updateProductCategoryStatus();
+                    break;
+                case "createproductcategory":
+                    _SwitchReturn = createProductCategory();
+                    break;
+                case "deleteproductcategory":
+                    _SwitchReturn = deleteProductCategory();
+                    break;
                 default:
                     _SwitchReturn = null;
                     break;
@@ -107,6 +119,7 @@ namespace Portal.Functions
                                                                WebStatus = Product.WebStatus,
                                                                SlideStatus = Product.SlideStatus,
                                                                ButikkStatus = Product.ButikkStatus,
+                                                               LagerDato = Product.LagerDato.HasValue ? Convert.ToDateTime(Product.LagerDato.ToString()) : (DateTime?)null,
                                                                Status = Product.Status,
                                                                Produktkategori = ProductCategory.Produktkategori != "" ? ProductCategory.Produktkategori : ""
 
@@ -139,6 +152,7 @@ namespace Portal.Functions
                                                                WebStatus = Product.WebStatus,
                                                                SlideStatus = Product.SlideStatus,
                                                                ButikkStatus = Product.ButikkStatus,
+                                                               LagerDato = Product.LagerDato.HasValue ? Convert.ToDateTime(Product.LagerDato.ToString()) : (DateTime?)null,
                                                                Status = Product.Status,
                                                                Produktkategori = ProductCategory.Produktkategori != "" ? ProductCategory.Produktkategori : ""
 
@@ -250,6 +264,7 @@ namespace Portal.Functions
                                                        ProduktId = Product.ProduktId,
                                                        ProductGruppeId = Product.ProduktgruppeId,
                                                        ProduktkategoriId = Product.ProduktkategoriId,
+                                                       ButikkStatus = Product.ButikkStatus,
                                                        //RegDato = Product.RegDato.HasValue ? Convert.ToDateTime(Product.RegDato.ToString()) : (DateTime?)null,
                                                        Produkt = Product.Produkt != "" ? Product.Produkt : "",
                                                        Pris = Product.Pris != "" ? Product.Pris : "",
@@ -260,6 +275,7 @@ namespace Portal.Functions
                                                        Dybde = Product.Dybde != "" ? Product.Dybde : "",
                                                        Vekt = Product.Vekt != "" ? Product.Vekt : "",
                                                        LagerDato = Product.LagerDato.HasValue ? Convert.ToDateTime(Product.LagerDato.ToString()) : (DateTime?)null,
+                                                       //LagerDato = Product.LagerDato,
                                                        Produktgruppe = ProductGroup.Produktgruppe != "" ? ProductGroup.Produktgruppe : "",
                                                        _ProductAddOnsData = (from ProductAddOn in _Flib.db.tblProductAddOns
                                                                              where ProductAddOn.KnyttetId == Product.ProduktId
@@ -310,6 +326,7 @@ namespace Portal.Functions
             // Update Product
             _ObjCurrentProduct.ProduktgruppeId = _ObjProductData.ProductGruppeId;
             _ObjCurrentProduct.ProduktkategoriId = _ObjProductData.ProduktkategoriId;
+            _ObjCurrentProduct.LagerDato = _ObjProductData.LagerDato.HasValue == true ? Convert.ToDateTime( _ObjProductData.LagerDato.Value) : (DateTime?)null; 
             _ObjCurrentProduct.Produkt = Uri.UnescapeDataString(_ObjProductData.Produkt);
             _ObjCurrentProduct.Pris = Uri.UnescapeDataString(_ObjProductData.Pris);
             _ObjCurrentProduct.Bredde = Uri.UnescapeDataString(_ObjProductData.Bredde);
@@ -568,13 +585,24 @@ namespace Portal.Functions
                 if (_ObjCurrentProduct != null)
                 {
                     int _CurrentStatus = _ObjCurrentProduct.ButikkStatus;
-                    if (_CurrentStatus == 1)
-                    {
-                        _ObjCurrentProduct.ButikkStatus = 0;
-                    }
-                    else
+                    if (_CurrentStatus == 0)
                     {
                         _ObjCurrentProduct.ButikkStatus = 1;
+                        _ObjCurrentProduct.LagerDato = null;
+                    }
+                    if (_CurrentStatus == 1)
+                    {
+                        _ObjCurrentProduct.ButikkStatus = 2;
+                        _ObjCurrentProduct.LagerDato = null;
+                    }
+                    if (_CurrentStatus == 2)
+                    {
+                        _ObjCurrentProduct.ButikkStatus = 3;
+                    }
+                    if (_CurrentStatus == 3)
+                    {
+                        _ObjCurrentProduct.ButikkStatus = 0;
+                        _ObjCurrentProduct.LagerDato = null;
                     }
                     _ReturnCode = 200;
                 }
@@ -600,7 +628,168 @@ namespace Portal.Functions
             }
             return _ReturnProductCrud;
         }
+        private ReturnProductCrudClass readProductKategoriGrid()
+        {
+            if (_ObjProductGridSettings != null && _ObjProductData != null)
+            {
+                if (ObjProductGridSettings.SearchClause == "")
+                {                    
+                    List<ProductKategoriTypeClass> _ListProduktkategori = (from ProductKategoriType in _Flib.db.tblProductCategories
+                                                                           where ProductKategoriType.Status == _ObjProductData.Status
+                                                                           select new ProductKategoriTypeClass()
+                                                                           {
+                                                                               ProduktkategoriId = ProductKategoriType.ProduktkategoriId,
+                                                                               ProduktkategoriNr = ProductKategoriType.ProduktkategoriNr,
+                                                                               Produktkategori = ProductKategoriType.Produktkategori,
+                                                                               ProduktkategoriStatus = ProductKategoriType.Status
+                                                                           }).OrderBy(_ObjProductGridSettings.OrderByClause).Skip((_ObjProductGridSettings.PageCurrent - 1) * _ObjProductGridSettings.PageSize).Take(_ObjProductGridSettings.PageSize).ToList();
 
+                    _RecordCount = (from ProduktkategoriNr in _Flib.db.tblProductCategories
+                                    where ProduktkategoriNr.Status == _ObjProductData.Status
+                                    select ProduktkategoriNr).Count();
+
+                    _Pager.PageSize = _ObjProductGridSettings.PageSize;
+                    _Pager.PageCount = Convert.ToInt32(Math.Ceiling((Convert.ToDouble(_RecordCount) / Convert.ToDouble(_ObjProductGridSettings.PageSize))));
+                    _Pager.RecordCount = _RecordCount;
+
+                    _ReturnProductCrud.ProductKategoriData = _ListProduktkategori;
+                    _ReturnProductCrud.PagerInfo = _Pager;
+                    _ReturnProductCrud.Transfer = 200;
+
+                }
+                else
+                {
+                    List<ProductKategoriTypeClass> _ListProduktkategori = (from ProductKategoriType in _Flib.db.tblProductCategories
+                                                                           where ProductKategoriType.Status == _ObjProductData.Status
+                                                                           && ProductKategoriType.Produktkategori.Contains(_ObjProductGridSettings.SearchClause)
+                                                                           select new ProductKategoriTypeClass()
+                                                                           {
+                                                                               ProduktkategoriId = ProductKategoriType.ProduktkategoriId,
+                                                                               ProduktkategoriNr = ProductKategoriType.ProduktkategoriNr,
+                                                                               Produktkategori = ProductKategoriType.Produktkategori,
+                                                                               ProduktkategoriStatus = ProductKategoriType.Status
+                                                                           }).OrderBy(_ObjProductGridSettings.OrderByClause).Skip((_ObjProductGridSettings.PageCurrent - 1) * _ObjProductGridSettings.PageSize).Take(_ObjProductGridSettings.PageSize).ToList();
+
+                    _RecordCount = (from ProduktkategoriNr in _Flib.db.tblProductCategories
+                                    where ProduktkategoriNr.Status == _ObjProductData.Status
+                                    && ProduktkategoriNr.Produktkategori.Contains(_ObjProductGridSettings.SearchClause)
+                                    select ProduktkategoriNr).Count();
+
+                    _Pager.PageSize = _ObjProductGridSettings.PageSize;
+                    _Pager.PageCount = Convert.ToInt32(Math.Ceiling((Convert.ToDouble(_RecordCount) / Convert.ToDouble(_ObjProductGridSettings.PageSize))));
+                    _Pager.RecordCount = _RecordCount;
+
+                    _ReturnProductCrud.ProductKategoriData = _ListProduktkategori;
+                    _ReturnProductCrud.PagerInfo = _Pager;
+                    _ReturnProductCrud.Transfer = 200;
+                }
+                   
+            }
+            else
+            {
+                _ReturnProductCrud.Transfer = 500;
+            }
+            return _ReturnProductCrud;
+        }
+        private ReturnProductCrudClass updateProductCategoryStatus()
+        {
+            if (_ObjProductData != null && _ObjProductData.ProduktId > 0)
+            {
+                tblProductCategory _ObjCurrentProductCategory = _Flib.db.tblProductCategories.Where(u => u.ProduktkategoriId == _ObjProductData.ProduktId).SingleOrDefault();
+                if (_ObjCurrentProductCategory != null)
+                {
+                    if (_ObjCurrentProductCategory.Status == 1)
+                    {
+                        _ObjCurrentProductCategory.Status = 0;
+                    }
+                    else
+                    {
+                        _ObjCurrentProductCategory.Status = 1;
+                    }
+                    _ReturnCode = 200;
+                }
+                else
+                {
+                    _ReturnCode = 404;
+                }
+            }
+            else
+            {
+                _Return = false;
+            }
+
+            // Return
+            if (_Return == true)
+            {
+                _Flib.db.SubmitChanges();
+                _ReturnProductCrud.Transfer = _ReturnCode;
+            }
+            else
+            {
+                _ReturnProductCrud.Transfer = 500;
+            }
+            return _ReturnProductCrud;
+        }
+        public ReturnProductCrudClass createProductCategory()
+        {
+            if (_ObjProductData != null)
+            {
+                var _objNewProductCategory = new tblProductCategory()
+                {
+                    ProduktkategoriNr = _ObjProductData.ProduktkategoriNr,
+                    Produktkategori = _ObjProductData.Produktkategori,
+                    Status = 1
+                };
+                _Flib.db.tblProductCategories.InsertOnSubmit(_objNewProductCategory);
+                _Flib.db.SubmitChanges();
+                _ReturnProductCrud.ProductId = _objNewProductCategory.ProduktkategoriId;
+                _ReturnProductCrud.Transfer = 200;
+            }
+            return _ReturnProductCrud;
+        }
+        private ReturnProductCrudClass deleteProductCategory()
+        {
+            if (_ObjProductData != null)
+            {
+                tblProductCategory _ObjCurrentProductCategory = _Flib.db.tblProductCategories.Where(u => u.ProduktkategoriId == _ObjProductData.ProduktId).SingleOrDefault();
+                if (_ObjCurrentProductCategory != null)
+                {
+                    //int _CurrentAddOn = _Flib.db.tblProductAddOns.Where(aou => aou.KnyttetId == _ObjProductData.ProduktId).Count();
+                    //int _CurrentFolder = _Flib.db.tblFolders.Where(fu => fu.KnyttetId == _ObjProductData.ProduktId).Count();
+                    //int _CurrentProductFile = _Flib.db.tblProdctFiles.Where(pfu => pfu.ProduktId == _ObjProductData.ProduktId).Count();
+                    //if (_CurrentAddOn > 0 || _CurrentFolder > 0 || _CurrentProductFile > 0)
+                    //if (_CurrentAddOn > 0)
+                    //{
+                    //    _ReturnCode = 403;
+                    //}
+                    //else
+                    //{
+                        _Flib.db.tblProductCategories.DeleteOnSubmit(_ObjCurrentProductCategory);
+                        _ReturnCode = 200;
+                    //}
+
+                }
+                else
+                {
+                    _ReturnCode = 404;
+                }
+            }
+            else
+            {
+                _Return = false;
+            }
+            // Return
+            if (_Return == true)
+            {
+                _Flib.db.SubmitChanges();
+                _ReturnProductCrud.Transfer = _ReturnCode;
+            }
+            else
+            {
+                _ReturnProductCrud.Transfer = 500;
+            }
+            return _ReturnProductCrud;
+        }
         ////////////////////////////////////////////////////////////////////////////////
 
         public class ReturnProductCrudClass
@@ -636,9 +825,10 @@ namespace Portal.Functions
             public int WebStatus { get; set; }
             public int SlideStatus { get; set; }
             public int ButikkStatus { get; set; }
-            public int Status { get; set; }
+            public int Status { get; set; }           
             public string Produktgruppe { get; set; }
             public string Produktkategori { get; set; }
+            public int ProduktkategoriNr { get; set; }
             public List<ProductAddOnsClass> _ProductAddOnsData { get; set; }
 
         }

@@ -21,8 +21,7 @@ namespace Portal.Models
 	using System.ComponentModel;
 	using System;
 	
-	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="abdb")]
+		
 	public partial class adbdDataContext : System.Data.Linq.DataContext
 	{
 		
@@ -51,49 +50,26 @@ namespace Portal.Models
     partial void InserttblProductAddOn(tblProductAddOn instance);
     partial void UpdatetblProductAddOn(tblProductAddOn instance);
     partial void DeletetblProductAddOn(tblProductAddOn instance);
-    partial void InserttblProductCategory(tblProductCategory instance);
-    partial void UpdatetblProductCategory(tblProductCategory instance);
-    partial void DeletetblProductCategory(tblProductCategory instance);
-    partial void InserttblProductGroup(tblProductGroup instance);
-    partial void UpdatetblProductGroup(tblProductGroup instance);
-    partial void DeletetblProductGroup(tblProductGroup instance);
     partial void InserttblUser(tblUser instance);
     partial void UpdatetblUser(tblUser instance);
     partial void DeletetblUser(tblUser instance);
     partial void InserttblUserType(tblUserType instance);
     partial void UpdatetblUserType(tblUserType instance);
     partial void DeletetblUserType(tblUserType instance);
+    partial void InserttblProductCategory(tblProductCategory instance);
+    partial void UpdatetblProductCategory(tblProductCategory instance);
+    partial void DeletetblProductCategory(tblProductCategory instance);
+    partial void InserttblProductGroup(tblProductGroup instance);
+    partial void UpdatetblProductGroup(tblProductGroup instance);
+    partial void DeletetblProductGroup(tblProductGroup instance);
     #endregion
 		
-		public adbdDataContext() : 
-				base(global::System.Configuration.ConfigurationManager.ConnectionStrings["abdbConnectionString"].ConnectionString, mappingSource)
-		{
-			OnCreated();
-		}
-		
+				
 		public adbdDataContext(string connection) : 
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public adbdDataContext(System.Data.IDbConnection connection) : 
-				base(connection, mappingSource)
-		{
-			OnCreated();
-		}
-		
-		public adbdDataContext(string connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
-				base(connection, mappingSource)
-		{
-			OnCreated();
-		}
-		
-		public adbdDataContext(System.Data.IDbConnection connection, System.Data.Linq.Mapping.MappingSource mappingSource) : 
-				base(connection, mappingSource)
-		{
-			OnCreated();
-		}
+		}		
 		
 		public System.Data.Linq.Table<tblFile> tblFiles
 		{
@@ -151,22 +127,6 @@ namespace Portal.Models
 			}
 		}
 		
-		public System.Data.Linq.Table<tblProductCategory> tblProductCategories
-		{
-			get
-			{
-				return this.GetTable<tblProductCategory>();
-			}
-		}
-		
-		public System.Data.Linq.Table<tblProductGroup> tblProductGroups
-		{
-			get
-			{
-				return this.GetTable<tblProductGroup>();
-			}
-		}
-		
 		public System.Data.Linq.Table<tblUser> tblUsers
 		{
 			get
@@ -180,6 +140,22 @@ namespace Portal.Models
 			get
 			{
 				return this.GetTable<tblUserType>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tblProductCategory> tblProductCategories
+		{
+			get
+			{
+				return this.GetTable<tblProductCategory>();
+			}
+		}
+		
+		public System.Data.Linq.Table<tblProductGroup> tblProductGroups
+		{
+			get
+			{
+				return this.GetTable<tblProductGroup>();
 			}
 		}
 	}
@@ -2129,354 +2105,6 @@ namespace Portal.Models
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblProductCategory")]
-	public partial class tblProductCategory : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ProduktkategoriId;
-		
-		private System.Nullable<int> _ProduktkategoriNr;
-		
-		private string _Produktkategori;
-		
-		private System.Nullable<int> _Status;
-		
-		private EntitySet<tblProduct> _tblProducts;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnProduktkategoriIdChanging(int value);
-    partial void OnProduktkategoriIdChanged();
-    partial void OnProduktkategoriNrChanging(System.Nullable<int> value);
-    partial void OnProduktkategoriNrChanged();
-    partial void OnProduktkategoriChanging(string value);
-    partial void OnProduktkategoriChanged();
-    partial void OnStatusChanging(System.Nullable<int> value);
-    partial void OnStatusChanged();
-    #endregion
-		
-		public tblProductCategory()
-		{
-			this._tblProducts = new EntitySet<tblProduct>(new Action<tblProduct>(this.attach_tblProducts), new Action<tblProduct>(this.detach_tblProducts));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktkategoriId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ProduktkategoriId
-		{
-			get
-			{
-				return this._ProduktkategoriId;
-			}
-			set
-			{
-				if ((this._ProduktkategoriId != value))
-				{
-					this.OnProduktkategoriIdChanging(value);
-					this.SendPropertyChanging();
-					this._ProduktkategoriId = value;
-					this.SendPropertyChanged("ProduktkategoriId");
-					this.OnProduktkategoriIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktkategoriNr", DbType="Int")]
-		public System.Nullable<int> ProduktkategoriNr
-		{
-			get
-			{
-				return this._ProduktkategoriNr;
-			}
-			set
-			{
-				if ((this._ProduktkategoriNr != value))
-				{
-					this.OnProduktkategoriNrChanging(value);
-					this.SendPropertyChanging();
-					this._ProduktkategoriNr = value;
-					this.SendPropertyChanged("ProduktkategoriNr");
-					this.OnProduktkategoriNrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Produktkategori", DbType="NVarChar(255)")]
-		public string Produktkategori
-		{
-			get
-			{
-				return this._Produktkategori;
-			}
-			set
-			{
-				if ((this._Produktkategori != value))
-				{
-					this.OnProduktkategoriChanging(value);
-					this.SendPropertyChanging();
-					this._Produktkategori = value;
-					this.SendPropertyChanged("Produktkategori");
-					this.OnProduktkategoriChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
-		public System.Nullable<int> Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblProductCategory_tblProduct", Storage="_tblProducts", ThisKey="ProduktkategoriId", OtherKey="ProduktkategoriId")]
-		public EntitySet<tblProduct> tblProducts
-		{
-			get
-			{
-				return this._tblProducts;
-			}
-			set
-			{
-				this._tblProducts.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_tblProducts(tblProduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblProductCategory = this;
-		}
-		
-		private void detach_tblProducts(tblProduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblProductCategory = null;
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblProductGroup")]
-	public partial class tblProductGroup : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _ProduktgruppeId;
-		
-		private System.Nullable<int> _ProduktgruppeNr;
-		
-		private string _Produktgruppe;
-		
-		private string _ProduktgruppeInfo;
-		
-		private System.Nullable<int> _Status;
-		
-		private EntitySet<tblProduct> _tblProducts;
-		
-    #region Extensibility Method Definitions
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnProduktgruppeIdChanging(int value);
-    partial void OnProduktgruppeIdChanged();
-    partial void OnProduktgruppeNrChanging(System.Nullable<int> value);
-    partial void OnProduktgruppeNrChanged();
-    partial void OnProduktgruppeChanging(string value);
-    partial void OnProduktgruppeChanged();
-    partial void OnProduktgruppeInfoChanging(string value);
-    partial void OnProduktgruppeInfoChanged();
-    partial void OnStatusChanging(System.Nullable<int> value);
-    partial void OnStatusChanged();
-    #endregion
-		
-		public tblProductGroup()
-		{
-			this._tblProducts = new EntitySet<tblProduct>(new Action<tblProduct>(this.attach_tblProducts), new Action<tblProduct>(this.detach_tblProducts));
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktgruppeId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int ProduktgruppeId
-		{
-			get
-			{
-				return this._ProduktgruppeId;
-			}
-			set
-			{
-				if ((this._ProduktgruppeId != value))
-				{
-					this.OnProduktgruppeIdChanging(value);
-					this.SendPropertyChanging();
-					this._ProduktgruppeId = value;
-					this.SendPropertyChanged("ProduktgruppeId");
-					this.OnProduktgruppeIdChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktgruppeNr", DbType="Int")]
-		public System.Nullable<int> ProduktgruppeNr
-		{
-			get
-			{
-				return this._ProduktgruppeNr;
-			}
-			set
-			{
-				if ((this._ProduktgruppeNr != value))
-				{
-					this.OnProduktgruppeNrChanging(value);
-					this.SendPropertyChanging();
-					this._ProduktgruppeNr = value;
-					this.SendPropertyChanged("ProduktgruppeNr");
-					this.OnProduktgruppeNrChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Produktgruppe", DbType="NVarChar(255)")]
-		public string Produktgruppe
-		{
-			get
-			{
-				return this._Produktgruppe;
-			}
-			set
-			{
-				if ((this._Produktgruppe != value))
-				{
-					this.OnProduktgruppeChanging(value);
-					this.SendPropertyChanging();
-					this._Produktgruppe = value;
-					this.SendPropertyChanged("Produktgruppe");
-					this.OnProduktgruppeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktgruppeInfo", DbType="NVarChar(255)")]
-		public string ProduktgruppeInfo
-		{
-			get
-			{
-				return this._ProduktgruppeInfo;
-			}
-			set
-			{
-				if ((this._ProduktgruppeInfo != value))
-				{
-					this.OnProduktgruppeInfoChanging(value);
-					this.SendPropertyChanging();
-					this._ProduktgruppeInfo = value;
-					this.SendPropertyChanged("ProduktgruppeInfo");
-					this.OnProduktgruppeInfoChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int")]
-		public System.Nullable<int> Status
-		{
-			get
-			{
-				return this._Status;
-			}
-			set
-			{
-				if ((this._Status != value))
-				{
-					this.OnStatusChanging(value);
-					this.SendPropertyChanging();
-					this._Status = value;
-					this.SendPropertyChanged("Status");
-					this.OnStatusChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblProductGroup_tblProduct", Storage="_tblProducts", ThisKey="ProduktgruppeId", OtherKey="ProduktgruppeId")]
-		public EntitySet<tblProduct> tblProducts
-		{
-			get
-			{
-				return this._tblProducts;
-			}
-			set
-			{
-				this._tblProducts.Assign(value);
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
-		}
-		
-		private void attach_tblProducts(tblProduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblProductGroup = this;
-		}
-		
-		private void detach_tblProducts(tblProduct entity)
-		{
-			this.SendPropertyChanging();
-			entity.tblProductGroup = null;
-		}
-	}
-	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblUser")]
 	public partial class tblUser : INotifyPropertyChanging, INotifyPropertyChanged
 	{
@@ -3668,6 +3296,354 @@ namespace Portal.Models
 		{
 			this.SendPropertyChanging();
 			entity.tblUserType = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblProductCategory")]
+	public partial class tblProductCategory : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ProduktkategoriId;
+		
+		private System.Nullable<int> _ProduktkategoriNr;
+		
+		private string _Produktkategori;
+		
+		private int _Status;
+		
+		private EntitySet<tblProduct> _tblProducts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProduktkategoriIdChanging(int value);
+    partial void OnProduktkategoriIdChanged();
+    partial void OnProduktkategoriNrChanging(System.Nullable<int> value);
+    partial void OnProduktkategoriNrChanged();
+    partial void OnProduktkategoriChanging(string value);
+    partial void OnProduktkategoriChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public tblProductCategory()
+		{
+			this._tblProducts = new EntitySet<tblProduct>(new Action<tblProduct>(this.attach_tblProducts), new Action<tblProduct>(this.detach_tblProducts));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktkategoriId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ProduktkategoriId
+		{
+			get
+			{
+				return this._ProduktkategoriId;
+			}
+			set
+			{
+				if ((this._ProduktkategoriId != value))
+				{
+					this.OnProduktkategoriIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProduktkategoriId = value;
+					this.SendPropertyChanged("ProduktkategoriId");
+					this.OnProduktkategoriIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktkategoriNr", DbType="Int")]
+		public System.Nullable<int> ProduktkategoriNr
+		{
+			get
+			{
+				return this._ProduktkategoriNr;
+			}
+			set
+			{
+				if ((this._ProduktkategoriNr != value))
+				{
+					this.OnProduktkategoriNrChanging(value);
+					this.SendPropertyChanging();
+					this._ProduktkategoriNr = value;
+					this.SendPropertyChanged("ProduktkategoriNr");
+					this.OnProduktkategoriNrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Produktkategori", DbType="NVarChar(255)")]
+		public string Produktkategori
+		{
+			get
+			{
+				return this._Produktkategori;
+			}
+			set
+			{
+				if ((this._Produktkategori != value))
+				{
+					this.OnProduktkategoriChanging(value);
+					this.SendPropertyChanging();
+					this._Produktkategori = value;
+					this.SendPropertyChanged("Produktkategori");
+					this.OnProduktkategoriChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblProductCategory_tblProduct", Storage="_tblProducts", ThisKey="ProduktkategoriId", OtherKey="ProduktkategoriId")]
+		public EntitySet<tblProduct> tblProducts
+		{
+			get
+			{
+				return this._tblProducts;
+			}
+			set
+			{
+				this._tblProducts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tblProducts(tblProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblProductCategory = this;
+		}
+		
+		private void detach_tblProducts(tblProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblProductCategory = null;
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tblProductGroup")]
+	public partial class tblProductGroup : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _ProduktgruppeId;
+		
+		private System.Nullable<int> _ProduktgruppeNr;
+		
+		private string _Produktgruppe;
+		
+		private string _ProduktgruppeInfo;
+		
+		private int _Status;
+		
+		private EntitySet<tblProduct> _tblProducts;
+		
+    #region Extensibility Method Definitions
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnProduktgruppeIdChanging(int value);
+    partial void OnProduktgruppeIdChanged();
+    partial void OnProduktgruppeNrChanging(System.Nullable<int> value);
+    partial void OnProduktgruppeNrChanged();
+    partial void OnProduktgruppeChanging(string value);
+    partial void OnProduktgruppeChanged();
+    partial void OnProduktgruppeInfoChanging(string value);
+    partial void OnProduktgruppeInfoChanged();
+    partial void OnStatusChanging(int value);
+    partial void OnStatusChanged();
+    #endregion
+		
+		public tblProductGroup()
+		{
+			this._tblProducts = new EntitySet<tblProduct>(new Action<tblProduct>(this.attach_tblProducts), new Action<tblProduct>(this.detach_tblProducts));
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktgruppeId", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int ProduktgruppeId
+		{
+			get
+			{
+				return this._ProduktgruppeId;
+			}
+			set
+			{
+				if ((this._ProduktgruppeId != value))
+				{
+					this.OnProduktgruppeIdChanging(value);
+					this.SendPropertyChanging();
+					this._ProduktgruppeId = value;
+					this.SendPropertyChanged("ProduktgruppeId");
+					this.OnProduktgruppeIdChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktgruppeNr", DbType="Int")]
+		public System.Nullable<int> ProduktgruppeNr
+		{
+			get
+			{
+				return this._ProduktgruppeNr;
+			}
+			set
+			{
+				if ((this._ProduktgruppeNr != value))
+				{
+					this.OnProduktgruppeNrChanging(value);
+					this.SendPropertyChanging();
+					this._ProduktgruppeNr = value;
+					this.SendPropertyChanged("ProduktgruppeNr");
+					this.OnProduktgruppeNrChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Produktgruppe", DbType="NVarChar(255)")]
+		public string Produktgruppe
+		{
+			get
+			{
+				return this._Produktgruppe;
+			}
+			set
+			{
+				if ((this._Produktgruppe != value))
+				{
+					this.OnProduktgruppeChanging(value);
+					this.SendPropertyChanging();
+					this._Produktgruppe = value;
+					this.SendPropertyChanged("Produktgruppe");
+					this.OnProduktgruppeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_ProduktgruppeInfo", DbType="NVarChar(255)")]
+		public string ProduktgruppeInfo
+		{
+			get
+			{
+				return this._ProduktgruppeInfo;
+			}
+			set
+			{
+				if ((this._ProduktgruppeInfo != value))
+				{
+					this.OnProduktgruppeInfoChanging(value);
+					this.SendPropertyChanging();
+					this._ProduktgruppeInfo = value;
+					this.SendPropertyChanged("ProduktgruppeInfo");
+					this.OnProduktgruppeInfoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_Status", DbType="Int NOT NULL")]
+		public int Status
+		{
+			get
+			{
+				return this._Status;
+			}
+			set
+			{
+				if ((this._Status != value))
+				{
+					this.OnStatusChanging(value);
+					this.SendPropertyChanging();
+					this._Status = value;
+					this.SendPropertyChanged("Status");
+					this.OnStatusChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tblProductGroup_tblProduct", Storage="_tblProducts", ThisKey="ProduktgruppeId", OtherKey="ProduktgruppeId")]
+		public EntitySet<tblProduct> tblProducts
+		{
+			get
+			{
+				return this._tblProducts;
+			}
+			set
+			{
+				this._tblProducts.Assign(value);
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+		
+		private void attach_tblProducts(tblProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblProductGroup = this;
+		}
+		
+		private void detach_tblProducts(tblProduct entity)
+		{
+			this.SendPropertyChanging();
+			entity.tblProductGroup = null;
 		}
 	}
 }

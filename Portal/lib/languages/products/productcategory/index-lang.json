@@ -1,0 +1,64 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "spanPageLabel": [ "id", "text", "Product Category" ] },
+      { "cmdResetFilter": [ "id", "text", "Reset filter" ] },
+      { "cmdAddNew": [ "id", "htmlembedded", "New Category" ] },
+      { "labelLegendFilter": [ "id", "text", "Filter" ] },
+      { "labelSearchText": [ "id", "text", "Search:" ] },
+      { "SearchText": [ "id", "placeholder", "Product Category" ] },
+      { "labelFilterStatus": [ "id", "text", "Status" ] },
+      { "labelFilterStatusAktive": [ "id", "text", "Active" ] },
+      { "labelFilterStatusDisabled": [ "id", "text", "Disabled" ] },
+      { "labelEdit": [ "id", "text", "Edit" ] },
+      { "labelStatus": [ "id", "text", "Status" ] },
+      { "labelDelete": [ "id", "text", "Delete" ] },
+      { "labelProductCategoryNr": [ "id", "text", "Category No" ] },
+      { "labelProductCategory": [ "id", "text", "Category" ] },
+      { "trEdit": [ "class", "title", "Double-click to edit" ] },
+      { "cmdEdit": [ "class", "title", "Click to edit" ] },
+      { "cmdStatus": [ "class", "title", "Click to change status" ] },
+      { "cmdDelete": [ "class", "title", "Click to delete" ] }
+    ],
+    "nb-NO": [
+      { "spanPageLabel": [ "id", "text", "Produktkategori" ] },
+      { "cmdResetFilter": [ "id", "text", "Reset filtrering" ] },
+      { "cmdAddNew": [ "id", "htmlembedded", "Ny Kategori" ] },
+      { "labelLegendFilter": [ "id", "text", "Filtrering" ] },
+      { "labelSearchText": [ "id", "text", "Søk:" ] },
+      { "SearchText": [ "id", "placeholder", "Produktkategori" ] },
+      { "labelFilterStatus": [ "id", "text", "Status" ] },
+      { "labelFilterStatusAktive": [ "id", "text", "Aktiv" ] },
+      { "labelFilterStatusDisabled": [ "id", "text", "Deaktiv" ] },
+      { "labelEdit": [ "id", "text", "Endre" ] },
+      { "labelStatus": [ "id", "text", "Status" ] },
+      { "labelDelete": [ "id", "text", "Slett" ] },
+      { "labelProductCategoryNr": [ "id", "text", "Kategori Nr" ] },
+      { "labelProductCategory": [ "id", "text", "Kategori" ] },
+      { "trEdit": [ "class", "title", "Dobbeltklikk for å endre" ] },
+      { "cmdEdit": [ "class", "title", "Klikk for å endre" ] },
+      { "cmdStatus": [ "class", "title", "Klikk for å endre status" ] },
+      { "cmdDelete": [ "class", "title", "Klikk for å slett" ] }
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      "labelPageTitle": "Product Category | ABRAHAMSEN AUDIO PORTAL",
+      "lableTotalRecords": "Total Category's:",
+      "lableNoRecords": "No Category found.",
+      "spanPageLabelEditProduct": "Edit Category",
+      "spanPageLabelAddProduct": "Add Category",
+      "ProductNotFound": "No Category found. Please try again. If this error persists please contact the Administration.",
+      "ProductDataExistsDisabled": "Due to different information associated with the Category, this Category can not be deleted."
+    },
+    "nb-NO": {
+      "labelPageTitle": "Produktkategori | ABRAHAMSEN AUDIO PORTAL",
+      "lableTotalRecords": "Totalt antall kategorier:",
+      "lableNoRecords": "Ingen kategori funnet.",
+      "spanPageLabelEditProduct": "Endre kategori",
+      "spanPageLabelAddProduct": "Registrer kategori",
+      "ProductNotFound": "Ingen kategori funnet. Vennligst prøv på nytt. Hvis denne feilen vedvarer, vennligst kontakt administrasjonen.",
+      "ProductDataExistsDisabled": "På grunn av forskjellig informasjon knyttet til kategorien, kan kategorien ikke slettes."
+    }
+  }
+}

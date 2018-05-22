@@ -1,0 +1,252 @@
+﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script type="text/javascript">
+    
+    var LanguagePage = "/lib/languages/products/productcategory/addedit-lang.json";
+    var ValidationPage = "/lib/validation/products/productcategory/addedit-val.json";
+    var ThisPage = "admin/products/productcategory/add";
+    var ModalHelpPath = "admin-products-productcategory-addedit";
+    
+    function getContentInfo()
+    {
+        getLanguage(LanguagePage, function(Response)
+        {
+            setDefaultLanguage(ThisLanguage);
+            if (Response == 200)
+            {
+                setPageLanguage(ThisLanguage);
+                getValidation(ValidationPage, function(Response)
+                {
+                    if (Response == 200)
+                    {
+                        getContentData();
+                    }
+                    else
+                    {
+                        setError("getpage", "/admin/dashboard/index.html", ThisPage, "getValidation", "Validation");
+                    }
+                });
+            }
+            else
+            {
+                setError("getpage", "/admin/dashboard/index.html", ThisPage, "getLanguage", "Language");
+            }
+        });
+    }
+
+    function getContentData()
+    {               
+        ObjProductGroupOptionData = [];
+        ObjProductCategoryOptionData = [];
+
+        var _OutputElements = {};
+        _OutputElements["TransferType"] = "readoption";
+
+        $.ajaxSetup({ cache: false });
+        $.ajax(
+        {
+            url: "/api/admin/productcrud",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(_OutputElements),
+            contentType: "application/json; charset=utf-8",
+            timeout: 15000
+        }).done(function (data, textStatus, jqXHR)
+        {
+            if (jqXHR.status == 200)
+            {
+                if (data.Transfer == 200)
+                {                    
+                    ObjProductCategoryOptionData = data.ProductKategoriData                    
+                    var _ObjProductCategoryNr = [];
+                    $.each(ObjProductCategoryOptionData, function(i, ProductCategory)
+                    {
+                        _ObjProductCategoryNr.push(ProductCategory.ProduktkategoriNr);
+                    });
+                    var nextProductCategoryNr = Math.max.apply(Math, _ObjProductCategoryNr);
+                    nextProductCategoryNr = nextProductCategoryNr + 1
+                    $("#ProduktkategoriNr").val(nextProductCategoryNr);
+                    $('#ProduktkategoriNr').prop('readonly', true);                   
+                    
+                    setContentInfo();
+                }
+                else if (data.Transfer == 404)
+                {
+                    hideLoadboxAndBackground();
+                    window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.UserNotFound); }, 200);
+                }
+                else
+                {
+                    setError("dialogAlert", "", ThisPage, "getContentData:readuser:data.Transfer:" + data.Transfer, "LoadData");
+                }
+            }
+        }).always(function (jqXHR, textStatus, errorThrown)
+        {
+            if (jqXHR.status != undefined)
+            {
+                setError("dialogAlert", "", ThisPage, "getContentData:readuser:jqXHR.status:" + jqXHR.status, "LoadData");
+            }
+        });        
+    }
+
+    function setContentInfo()
+    {
+        formdirty = false;
+        setDefaultLanguage(ThisLanguage);
+        setPageLanguage(ThisLanguage);
+        setValidation("#frmReg");
+        setCSSInlineStyle("#frmReg");
+        FormStyle("#frmReg");
+        $("#Produktkategori").focus();
+        $("#page").fadeIn(100);
+        window.setTimeout(function() { hideLoadboxAndBackground(); hideBackground(); }, 100);
+    }
+
+    function validateDirty()
+    {
+        formdirty = true;
+        $("#cmdSubmit").prop("disabled", false);
+        $("#cmdSubmitAndContinue").prop("disabled", false);
+        $("#cmdClose").html(SingleDefaultElements.cmdCancelText);
+        $("#cmdClose").prop("title", SingleDefaultElements.cmdCancelTitle);
+    }
+
+    function verifyCancel()
+    {
+        if (formdirty == true)
+        {
+            modalStandardConfirm(SingleDefaultElements.cancelDialogConfirmTitle, SingleDefaultElements.cancelDialogConfirmText, SingleDefaultElements.cancelDialogConfirmButton1, SingleDefaultElements.cancelDialogConfirmButton2, contentCancel, '');
+        }
+        else
+        {
+            window.top.closeProductCategoryDialogiFrame(false);
+        }
+    }
+
+    function contentCancel()
+    {
+        window.top.closeProductCategoryDialogiFrame(false);
+    }
+
+    function verifySubmit(ClickedButton)
+    {
+        var _ObjForm = serializeForm("#frmReg");
+        if (isEmpty(_ObjForm) == false)
+        {
+            var _OutputElements = {};
+            _OutputElements["TransferType"] = "createproductcategory";
+            _OutputElements["ProductData"] = _ObjForm;
+            
+            $.ajaxSetup({ cache: false });
+            $.ajax(
+            {
+                url: "/api/admin/productcrud",
+                type: "POST",
+                dataType: "json",
+                data: JSON.stringify(_OutputElements),
+                contentType: "application/json; charset=utf-8",
+                timeout: 15000
+            }).done(function (data, textStatus, jqXHR)
+            {
+                if (jqXHR.status == 200)
+                {
+                    if (data.Transfer == 200)
+                    {
+                        if (ClickedButton == "cmdSubmit")
+                        {
+                            window.top.closeProductCategoryDialogiFrame(true);
+                        }
+                        else
+                        {                            
+                            ObjPageTransferData.ProductId = data.ProductId;
+                            getPage('/admin/products/edit.html');
+                        }
+                    }
+                    else if (data.Transfer == 302)
+                    {
+                        window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.EmailUsernameExists); }, 200);
+                    }
+                    else
+                    {
+                        setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:data.Transfer:" + data.Transfer, "StoreData");
+                    }
+                }
+            }).always(function (jqXHR, textStatus, errorThrown)
+            {
+                if (jqXHR.status != undefined)
+                {
+                    setError("dialogAlert", "", ThisPage, "verifySubmit:createuser:jqXHR.status:" + jqXHR.status, "StoreData");
+                    
+                }
+            });
+        }
+    }
+
+</script>
+
+<form id="frmReg">
+    <div style="max-width: 1180px;">
+
+        <div class="row" style="margin: 2px;">
+            <div class="col-sm-12" style="padding: 0px;">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <table align="left">
+                                        <tr>
+                                            <td><button type="button" class="btn btn-success btn-xs btn-shadow submit" id="cmdSubmit"></button></td>
+                                            <td class="divider"></td>
+                                            <td><button type="button" class="btn btn-success btn-xs btn-shadow submit" id="cmdSubmitAndContinue"></button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td>
+                                    <table align="right">
+                                        <tr>
+                                            <td><button type="button" class="btn btn-info btn-xs btn-shadow cancel" id="cmdClose"></button></td>
+                                            <td class="divider"></td>
+                                            <td><button type="button" class="btn btn-info btn-xs btn-shadow help" id="cmdHelp"><i class="fa fa-question-circle fa-lg"></i></button></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row" style="margin: 2px;">
+            <div class="col-sm-12" style="padding: 0px;">
+
+                <fieldset>
+                    <legend id="labelLegend"></legend>
+
+                    <div class="row fau-all-marginTop-14px">
+                        <div class="col-sm-4 col-md-3">
+                            <div class="form-group">
+                                <label for="ProduktkategoriNr" id="labelProduktkategoriNr"></label>
+                                <input type="text" class="form-control input-sm" id="ProduktkategoriNr">
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <div class="form-group">
+                                <label for="Produktkategori" id="labelProduktkategori"></label>
+                                <input type="text" class="form-control input-sm" id="Produktkategori">
+                            </div>
+                        </div>                        
+                        <div class="col-sm-4 col-md-3"></div>
+                    </div>
+
+                </fieldset>
+
+            </div>
+        </div>
+
+    </div>
+</form>

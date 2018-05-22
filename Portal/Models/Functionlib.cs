@@ -36,24 +36,28 @@ namespace Portal.Models
         public List<ProductGruppeTypeClass> getProductGruppeType()
         {
             
-                List<ProductGruppeTypeClass> _ListUserType = (from ProductGruppeType in db.tblProductGroups                                                     
+                List<ProductGruppeTypeClass> _ListProduktgruppe = (from ProductGruppeType in db.tblProductGroups                                                     
                                                      select new ProductGruppeTypeClass()
                                                      {
                                                          ProduktgruppeId = ProductGruppeType.ProduktgruppeId,
-                                                         Produktgruppe = ProductGruppeType.Produktgruppe
+                                                         ProduktgruppeNr = ProductGruppeType.ProduktgruppeNr,
+                                                         Produktgruppe = ProductGruppeType.Produktgruppe,
+                                                         ProduktgruppeStatus = ProductGruppeType.Status
                                                      }).ToList();
-                return _ListUserType;
+                return _ListProduktgruppe;
             }
         public List<ProductKategoriTypeClass> getProductKategoriType()
         {
 
-            List<ProductKategoriTypeClass> _ListUserType = (from ProductKategoriType in db.tblProductCategories
+            List<ProductKategoriTypeClass> _ListProduktkategori = (from ProductKategoriType in db.tblProductCategories
                                                           select new ProductKategoriTypeClass()
                                                           {
                                                               ProduktkategoriId = ProductKategoriType.ProduktkategoriId,
-                                                              Produktkategori = ProductKategoriType.Produktkategori
+                                                              ProduktkategoriNr = ProductKategoriType.ProduktkategoriNr,
+                                                              Produktkategori = ProductKategoriType.Produktkategori,
+                                                              ProduktkategoriStatus = ProductKategoriType.Status
                                                           }).ToList();
-            return _ListUserType;
+            return _ListProduktkategori;
         }
 
 
@@ -69,12 +73,16 @@ namespace Portal.Models
         public class ProductGruppeTypeClass
         {
             public int ProduktgruppeId { get; set; }
+            public int? ProduktgruppeNr { get; set; }
             public string Produktgruppe { get; set; }
+            public int? ProduktgruppeStatus { get; set; }
         }
         public class ProductKategoriTypeClass
         {
             public int ProduktkategoriId { get; set; }
+            public int? ProduktkategoriNr { get; set; }
             public string Produktkategori { get; set; }
+            public int? ProduktkategoriStatus { get; set; }
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="abdb" Class="adbdDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="WebSettings" ConnectionString="Data Source=91.192.223.172;Initial Catalog=abdb;Persist Security Info=True;User ID=abdb" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="abdbConnectionString" Provider="System.Data.SqlClient" />
+  <Connection Mode="WebSettings" ConnectionString="Data Source=91.192.223.172;Initial Catalog=abdb;Persist Security Info=True;User ID=abdb" SettingsObjectName="System.Configuration.ConfigurationManager.ConnectionStrings" SettingsPropertyName="abdb" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tblFile" Member="tblFiles">
     <Type Name="tblFile">
       <Column Name="FilId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -92,25 +92,6 @@
       <Association Name="tblProduct_tblProductAddOn" Member="tblProduct" ThisKey="KnyttetId" OtherKey="ProduktId" Type="tblProduct" IsForeignKey="true" />
     </Type>
   </Table>
-  <Table Name="dbo.tblProductCategory" Member="tblProductCategories">
-    <Type Name="tblProductCategory">
-      <Column Name="ProduktkategoriId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProduktkategoriNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Produktkategori" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="tblProductCategory_tblProduct" Member="tblProducts" ThisKey="ProduktkategoriId" OtherKey="ProduktkategoriId" Type="tblProduct" />
-    </Type>
-  </Table>
-  <Table Name="dbo.tblProductGroup" Member="tblProductGroups">
-    <Type Name="tblProductGroup">
-      <Column Name="ProduktgruppeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
-      <Column Name="ProduktgruppeNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Column Name="Produktgruppe" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="ProduktgruppeInfo" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
-      <Column Name="Status" Type="System.Int32" DbType="Int" CanBeNull="true" />
-      <Association Name="tblProductGroup_tblProduct" Member="tblProducts" ThisKey="ProduktgruppeId" OtherKey="ProduktgruppeId" Type="tblProduct" />
-    </Type>
-  </Table>
   <Table Name="dbo.tblUser" Member="tblUsers">
     <Type Name="tblUser">
       <Column Name="BrukerId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
@@ -162,6 +143,25 @@
       <Column Name="Type" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Column Name="Kategori" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
       <Association Name="tblUserType_tblUser" Member="tblUsers" ThisKey="BrukertypeId" OtherKey="BrukerTypeId" Type="tblUser" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProductCategory" Member="tblProductCategories">
+    <Type Name="tblProductCategory">
+      <Column Name="ProduktkategoriId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProduktkategoriNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Produktkategori" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblProductCategory_tblProduct" Member="tblProducts" ThisKey="ProduktkategoriId" OtherKey="ProduktkategoriId" Type="tblProduct" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tblProductGroup" Member="tblProductGroups">
+    <Type Name="tblProductGroup">
+      <Column Name="ProduktgruppeId" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ProduktgruppeNr" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="Produktgruppe" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="ProduktgruppeInfo" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Status" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Association Name="tblProductGroup_tblProduct" Member="tblProducts" ThisKey="ProduktgruppeId" OtherKey="ProduktgruppeId" Type="tblProduct" />
     </Type>
   </Table>
 </Database>

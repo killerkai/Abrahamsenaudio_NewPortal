@@ -82,7 +82,7 @@ function getValidType(SelectedType)
 {
     var validTypes =
 	{
-	    "validate-alpha": "1234567890abcdefghijklmnopqrstuvwxyzæøå!@#%&()?*+-_,;.:/\u0020\u0027\u000a",
+	    "validate-alpha": "1234567890abcdefghijklmnopqrstuvwxyzæøå!@#%&()<>?*+-_,;.:/\u0020\u0027\u000a",
 	    "validate-numeric": "1234567890\u0020",
 	    "validate-email": "1234567890abcdefghijklmnopqrstuvwxyz-_.@",
 	    "validate-web": "1234567890abcdefghijklmnopqrstuvwxyz-_.:/",
@@ -746,6 +746,7 @@ function serializeForm(SelectedArea)
                         }
                         else
                         {
+                            //console.log(currentElementId);
                             $("#modalStandardTitle, #modalStandardText, #modalStandardAdditional").empty();
                             $("#modalStandardTitle").text(SingleDefaultElements.invalidCharacterTitle);
                             $("#modalStandardText").html(SingleElements[currentElementId + "SubmitError"]);
@@ -779,7 +780,7 @@ function populateForm(SelectedArea, SelectedObject)
         SelectedArea = "";
     }
     $.each(SelectedObject, function(HTMLElement, Value)
-    {
+    {        
         if ($('#' + HTMLElement, SelectedArea).length > 0 && $('#' + HTMLElement, SelectedArea).attr("data-attr") != undefined)
         {
             if (JSONValidation[HTMLElement].datatype == "date")

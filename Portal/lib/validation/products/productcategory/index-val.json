@@ -1,0 +1,8 @@
+﻿{
+  "labelProductCategoryNr": {
+    "data-attr": "ProduktkategoriNr"
+  },
+  "labelProductCategory": {
+    "data-attr": "Produktkategori"
+  }
+}

@@ -1,0 +1,21 @@
+﻿{
+  "ObjElements": {
+    "en-US": [
+      { "labelProduktkategoriNr": [ "id", "text", "Product Category No:" ] },
+      { "labelProduktkategori": [ "id", "text", "Product Category:" ] }      
+    ],
+    "nb-NO": [
+      { "labelProduktkategoriNr": [ "id", "text", "Productkategori Nr:" ] },
+      { "labelProduktkategori": [ "id", "text", "Productkategori:" ] }      
+    ]
+  },
+  "SingleElements": {
+    "en-US": {
+      
+
+    },
+    "nb-NO": {
+      
+    }
+  }
+}

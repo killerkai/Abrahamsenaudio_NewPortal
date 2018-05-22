@@ -1,24 +1,23 @@
 ﻿<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <script type="text/javascript">
 
-    var LanguagePage = "/lib/languages/products/index-lang.json";
-    var ValidationPage = "/lib/validation/products/index-val.json";
+    var LanguagePage = "/lib/languages/products/productcategory/index-lang.json";
+    var ValidationPage = "/lib/validation/products/productcategory/index-val.json";
     var ThisPage = "admin/products/index";
     var ModalHelpPath = "admin-products-index";
 
     var PageCurrent = 1;
     var PageSize = 10;
     var SearchClause = "";
-    var OrderByClause = "Produkt ASC";
+    var OrderByClause = "Produktkategori ASC";
     var ObjProductData = [];
     var thisAJAX = null;
-    var ProductStatus = 1;
-    var ProductGruppeId;
+    var ProductkategoriStatus = 1;
 
     function getContentInfo()
     {
         getLanguage(LanguagePage, function(Response)
-        {            
+        {
             if (Response == 200)
             {
                 setPageLanguage(ThisLanguage);
@@ -30,28 +29,26 @@
                     }
                     else
                     {
-                        setError("getpage", "/admin/products/index.html", ThisPage, "getValidation", "Validation");
-                        
+                        setError("getpage", "/admin/products/productcategory/index.html", ThisPage, "getValidation", "Validation");
+
                     }
                 });
             }
             else
             {
-                setError("getpage", "/admin/products/index.html", ThisPage, "getLanguage", "Language");                
+                setError("getpage", "/admin/products/productcategory/index.html", ThisPage, "getLanguage", "Language");
             }
         });
     }
-
     function getContentData()
-    {        
+    {
         if (isEmpty(ObjPageData) == false)
         {
             PageCurrent = ObjPageData.PageCurrent;
             PageSize = ObjPageData.PageSize;
             SearchClause = ObjPageData.SearchClause;
             OrderByClause = ObjPageData.OrderByClause;
-            ProductStatus = ObjPageData.ProductStatus;
-            ProductGruppeId = ObjPageData.ProductGruppeId;
+            ProductkategoriStatus = ObjPageData.Status;
             $("#SearchText").val(ObjPageData.SearchClause);
         }
         else
@@ -60,7 +57,7 @@
             ObjPageData.PageSize = PageSize;
             ObjPageData.SearchClause = SearchClause;
             ObjPageData.OrderByClause = OrderByClause;
-            ObjPageData.ProductStatus = ProductStatus;            
+            ObjPageData.Status = ProductkategoriStatus;
         }
         var _HTML = "";
         var _OutputElements = {};
@@ -71,12 +68,11 @@
         _ObjProductGridSettings.PageSize = PageSize;
         _ObjProductGridSettings.SearchClause = encodeURIComponent(SearchClause);
         _ObjProductGridSettings.OrderByClause = OrderByClause;
-        _ObjProductData.Status = ProductStatus;
-        _ObjProductData.ProductGruppeId = ProductGruppeId;
-        _OutputElements["TransferType"] = "readproductgrid";
+        _ObjProductData.Status = ProductkategoriStatus;        
+        _OutputElements["TransferType"] = "readproductkategorigrid";
         _OutputElements["ProductGridSettings"] = _ObjProductGridSettings;
         _OutputElements["ProductData"] = _ObjProductData;
-
+        
         if (thisAJAX != null)
         {
             thisAJAX.abort();
@@ -95,45 +91,32 @@
             if (jqXHR.status == 200)
             {
                 if (data.Transfer == 200)
-                {
-                    $("#ProductTypeId").empty();
+                {                    
                     $("#gridTable").empty();
-                    ObjProductGruppeTypeData = [];
-                    ObjProductData = [];
+                    ObjProductKategoriTypeData = [];                    
                     ObjPagerInfo = {};
                     PageCount = 0;
                     RecordCount = 0;                    
                     
-                    ObjProductGruppeType = data.ProductGruppeData;
-                    ObjProductData = data.ProductData;
+                    ObjProductKategoriTypeData = data.ProductKategoriData;
                     ObjPagerInfo = data.PagerInfo;                    
                     
+                    _HTML = "";                    
+                    
+                    if (ProductkategoriStatus == 1)
+                    {
+                        $(".chkFilterStatus").eq(0).prop("checked", true)
+                    }
+                    else
+                    {
+                        $(".chkFilterStatus").eq(1).prop("checked", true)
+                    }
+                    if (ObjProductKategoriTypeData.length > 0)
+                    {
                         _HTML = "";
-                        _HTML += '<option>' + SingleElements.ProductGroupLable + '</option>';
-                        $.each(ObjProductGruppeType, function(i, ProductGruppeType)
-                        {
-                            _HTML += '<option value="' + ProductGruppeType.ProduktgruppeId + '">' + ProductGruppeType.Produktgruppe + '</option>';
-                        });
-                        $("#ProductTypeId").append(_HTML);
-                        if (data.ProductGruppeId != 0)
-                        {
-                            $("#ProductTypeId").val(data.ProductGruppeId);
-                            ObjPageData.ProductGruppeId = data.ProductGruppeId;
-                        }
-                        if (ProductStatus == 1)
-                        {
-                            $(".chkProductStatus").eq(0).prop("checked", true)
-                        }
-                        else
-                        {
-                            $(".chkProductStatus").eq(1).prop("checked", true)
-                        }
-                        if (ObjProductData.length > 0)
-                        {
-                            _HTML = "";
-                        $.each(ObjProductData, function(i, ProductContent)
+                        $.each(ObjProductKategoriTypeData, function(i, ProductKategoriType)
                         {                         
-                            _HTML += '<tr data-productid="' + ProductContent.ProduktId + '" class="tablesorter_tr trEdit">';
+                            _HTML += '<tr data-productcategoryid="' + ProductKategoriType.ProduktkategoriId + '" class="tablesorter_tr trEdit">';
                             _HTML += '<td width="10px"></td>';
                             //if (ProductContent.ProfileImage != "")
                             //{
@@ -141,32 +124,23 @@
                             //}
                             //else
                             //{
-                                _HTML += '<td width="60px"><div class="img-avatar"><i class="fa fa-picture-o fa-2x fa-fw" style="color: #A0A0A0; margin-top: 2px; margin-left: -1px;"></i></div></td>';
+                            _HTML += '<td width="60px"><div class="img-avatar"><i class="fa fa-picture-o fa-2x fa-fw" style="color: #A0A0A0; margin-top: 2px; margin-left: -1px;"></i></div></td>';
                             //}
                             _HTML += '<td width="20px"></td>';
-                            _HTML += '<td width="100px">' + ProductContent.Produkt + '</td>';
+                            _HTML += '<td width="100px">' + ProductKategoriType.ProduktkategoriNr + '</td>';
                             _HTML += '<td width="20px"></td>';
-                            _HTML += '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + ProductContent.Produktkategori + '</td>';
+                            _HTML += '<td style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">' + ProductKategoriType.Produktkategori + '</td>';
                             _HTML += '<td width="20px"></td>';
-                            _HTML += '<td width="120px" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><img data-buttontype="sliderstatus" data-productid="' + ProductContent.ProduktId + '" class="cmdStatus" src="/lib/icons/' + ProductContent.SlideStatus + '.png" height="20" width="20"></td>';
+                            _HTML += '<td width="120px"</td>';
                             _HTML += '<td width="20px"></td>';
-                            _HTML += '<td width="120px" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><img data-buttontype="webstatus" data-productid="' + ProductContent.ProduktId + '" class="cmdStatus" src="/lib/icons/' + ProductContent.WebStatus + '.png" height="20" width="20"></td>';
+                            _HTML += '<td width="120px"></td>';
+                            _HTML += '<td width="20px"></td>';                            
                             _HTML += '<td width="20px"></td>';
-                            if (ProductContent.LagerDato != null)
-                            {
-                                var lagerdato = moment(ProductContent.LagerDato).format('L');
-                                _HTML += '<td width="120px" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><img data-buttontype="butikkstatus" data-productid="' + ProductContent.ProduktId + '" class="cmdStatus" src="/lib/icons/' + ProductContent.ButikkStatus + '.png" height="20" width="20"></button>&nbsp;' + lagerdato + '</td>';
-                            }
-                            else
-                            {
-                                _HTML += '<td width="120px" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"><img data-buttontype="butikkstatus" data-productid="' + ProductContent.ProduktId + '" class="cmdStatus" src="/lib/icons/' + ProductContent.ButikkStatus + '.png" height="20" width="20"></button></td>';
-                            }
-                            _HTML += '<td width="20px"></td>';
-                            _HTML += '<td width="60px"><button data-productid="' + ProductContent.ProduktId + '" type="button" class="btn btn-success btn-xs btn-shadow btn-block fau-all-visibility-hidden cmdEdit"><i class="fa fa-pencil-square-o fa-lg fa-fw"></i></td>';
+                            _HTML += '<td width="60px"><button data-productcategoryid="' + ProductKategoriType.ProduktkategoriId + '" type="button" class="btn btn-success btn-xs btn-shadow btn-block fau-all-visibility-hidden cmdEdit"><i class="fa fa-pencil-square-o fa-lg fa-fw"></i></td>';
                             _HTML += '<td width="5px"></td>';
-                            _HTML += '<td width="60px"><button data-buttontype="status" data-productid="' + ProductContent.ProduktId + '" type="button" class="btn btn-success btn-xs btn-shadow btn-block fau-all-visibility-hidden cmdStatus"><i class="fa fa-chevron-down fa-lg fa-fw"></i></button></td>';
+                            _HTML += '<td width="60px"><button data-buttontype="status" data-productcategoryid="' + ProductKategoriType.ProduktkategoriId + '" type="button" class="btn btn-success btn-xs btn-shadow btn-block fau-all-visibility-hidden cmdStatus"><i class="fa fa-chevron-down fa-lg fa-fw"></i></button></td>';
                             _HTML += '<td width="5px"></td>';
-                            _HTML += '<td width="60px"><button data-productid="' + ProductContent.ProduktId + '" type="button" class="btn btn-danger btn-xs btn-shadow btn-block fau-all-visibility-hidden cmdDelete"><i class="fa fa-trash fa-lg fa-fw"></i></button></td>';
+                            _HTML += '<td width="60px"><button data-productcategoryid="' + ProductKategoriType.ProduktkategoriId + '" type="button" class="btn btn-danger btn-xs btn-shadow btn-block fau-all-visibility-hidden cmdDelete"><i class="fa fa-trash fa-lg fa-fw"></i></button></td>';
                             _HTML += '<td width="10px"></td>';
                             _HTML += '</tr>';
                         });
@@ -200,7 +174,7 @@
                 }
                 else
                 {
-                   setError("navigate", "/", ThisPage, "getContentData:sessions:data.Transfer:" + data.Transfer, "LoadData");
+                    setError("navigate", "/", ThisPage, "getContentData:sessions:data.Transfer:" + data.Transfer, "LoadData");
                 }
             }
         }).always(function(jqXHR, textStatus, errorThrown)
@@ -217,35 +191,23 @@
             {
                 thisAJAX = null;
             }
-        });
+        });    
     }
-    
-        
     function setContentInfo()
     {
         $("#cmdResetFilter").off().on('click', function()
         {
-            ObjPageData = {};            
-            getPage('/admin/products/index.html');
+            ObjPageData = {};
+            getPage('/admin/products/productcategory/index.html');
         });
-        $("#cmdAddNewProduct").off().on('click', function()
+        $("#cmdAddNew").off().on('click', function()
         {
             openModalAddProduct();
-        });
-        $("#ProductTypeId").off().on('change', function()
+        });        
+        $(".chkFilterStatus").off().on('click', function()
         {
             showBackground();
-            ObjPageData.ProductGruppeId = this.value;
-            ObjPageData.ProductStatus = getProductStatusChecked();
-            ObjPageData.PageCurrent = 1;
-            ObjPageData.PageSize = 10;
-            ObjPageData.SearchClause = $("#SearchText").val();            
-            getContentData();
-        });
-        $(".chkProductStatus").off().on('click', function()
-        {
-            showBackground();            
-            ObjPageData.ProductStatus = getProductStatusChecked();
+            ObjPageData.Status = getFilterStatusChecked();
             ObjPageData.PageCurrent = 1;
             ObjPageData.PageSize = 10;
             ObjPageData.SearchClause = $("#SearchText").val();
@@ -253,24 +215,21 @@
         });
         $(".trEdit").off().on('dblclick', function()
         {
-            openModalEditProduct($(this).attr("data-productid"));
+            openModalEditProduct($(this).attr("data-productcategoryid"));
         });
         $(".cmdEdit").off().on('click', function()
         {
-            openModalEditProduct($(this).attr("data-productid"));
+            openModalEditProduct($(this).attr("data-productcategoryid"));
         });
         $(".cmdStatus").off().on('click', function()
         {
-            ProductId = $(this).attr("data-productid");
-            ButtonType = $(this).attr("data-buttontype");
-            changeProductStatus(ProductId, ButtonType);            
+            ProductCategoryId = $(this).attr("data-productcategoryid");            
+            changeProductCategoryStatus(ProductCategoryId);            
         });
         $(".cmdDelete").off().on('click', function()
-        {            
-            verifyContentDelete($(this).attr("data-productid"));
+        {
+            verifyContentDelete($(this).attr("data-productcategoryid"));
         });
-        
-        formdirty = false;
         setResetFilter();
         setDialogiFrame();
         setDefaultLanguage(ThisLanguage);
@@ -287,37 +246,9 @@
     {
         formdirty = true;
     }
-
-    function setResetFilter()
-    {
-        $(".td-filter").each(function()
-        {
-            $(this).removeAttr('style');
-            if ($(this).children(":input")[0].type == "Select group, All")
-            {
-                if ($(this).children(":input").val() != null && $(this).children(":input").val() != 0)
-                {
-                    $(this).css({ "background-color": "#f0ad4e;" });
-                }
-            }
-            else if ($(this).children(":input")[0].type == "radio")
-            {
-                if ($(this).children(":input").prop("checked") == true)
-                {
-                    $(this).css({ "background-color": "#f0ad4e;" });
-                }
-            }
-        });
-    }
-    function getProductStatusChecked()
-    {
-        var _SelectedProductStatus = $('input[name=ProductStatus]:checked');
-        return $(_SelectedProductStatus).attr("data-productstatus")
-    }
-    
     function openModalAddProduct()
     {
-        ObjPageTransferData.Location = "/admin/products/add.html";
+        ObjPageTransferData.Location = "/admin/products/productcategory/add.html";
         $("#iframe-content").css({ "width": "1200px", "height": "450px" });
         $("#iframe-content").attr('src', 'iframeindex.html?objpagetransferdata=' + encodeURIComponent(JSON.stringify(ObjPageTransferData)));
         $("#dialog-modal-iframe").dialog("option", "title", SingleElements.spanPageLabelAddProduct);
@@ -325,8 +256,8 @@
         $("#dialog-modal-iframe").dialog({ close: function(event, ui) { $("#iframe-content").attr('src', ''); } });
     }
     function openModalEditProduct(SelectedProductId)
-    {        
-        ObjPageTransferData.Location = "/admin/products/edit.html";
+    {
+        ObjPageTransferData.Location = "/admin/products/productcategory/edit.html";
         ObjPageTransferData.ProductId = SelectedProductId;
         $("#iframe-content").css({ "width": "1200px", "height": "450px" });
         $("#iframe-content").attr('src', 'iframeindex.html?objpagetransferdata=' + encodeURIComponent(JSON.stringify(ObjPageTransferData)));
@@ -335,42 +266,95 @@
         $("#dialog-modal-iframe").dialog({ close: function(event, ui) { $("#iframe-content").attr('src', ''); } });
     }
     function verifyContentDelete(SelectedId)
-    {
+    {        
         modalStandardConfirm(SingleDefaultElements.alertContentDeleteTitle, SingleDefaultElements.alertContentDeleteText, SingleDefaultElements.alertContentDeleteButton1, SingleDefaultElements.alertContentDeleteButton2, contentDelete, SelectedId);
     }
-    function closeProductDialogiFrame(_Status)
+    function closeProductCategoryDialogiFrame(_Status)
     {
         ObjPageTransferData = {};
         _Status = _Status === true ? true : false;
         if (_Status == true)
         {
-            getPage('/admin/products/index.html');
+            getPage('/admin/products/productcategory/index.html');
         }
         $("#dialog-modal-iframe").dialog("close");
         $("#iframe-content").attr('src', '');
     }
-
-    function changeProductStatus(SelectedId,ButtonType)
+    function contentDelete(SelectedId)
     {
-        showBackground();        
+        //showBackground();
         var _OutputElements = {};
         var _ObjProductData = {};
-        switch (ButtonType)
+        _ObjProductData.ProduktId = Number(SelectedId);
+        _OutputElements["TransferType"] = "deleteproductcategory";
+        _OutputElements["ProductData"] = _ObjProductData;
+
+        $.ajaxSetup({ cache: false });
+        $.ajax(
         {
-            case "status":
-                _OutputElements["TransferType"] = "updateproductstatus";
-                break;
-            case "sliderstatus":
-                _OutputElements["TransferType"] = "updateproductslidestatus";
-                break;
-            case "webstatus":
-                _OutputElements["TransferType"] = "updateproductwebstatus";
-                break;
-            case "butikkstatus":
-                _OutputElements["TransferType"] = "updateproductbutikkstatus";
-                break;
-        }
-        _ObjProductData.ProduktId = Number(SelectedId);     
+            url: "/api/admin/productcrud",
+            type: "POST",
+            dataType: "json",
+            data: JSON.stringify(_OutputElements),
+            contentType: "application/json; charset=utf-8",
+            timeout: 15000
+        }).done(function(data, textStatus, jqXHR)
+        {
+            console.log(data);
+            if (jqXHR.status == 200)
+            {
+                if (data.Transfer == 200)
+                {
+                    getPage('/admin/products/productcategory/index.html');
+                }
+                else if (data.Transfer == 403)
+                {
+                    window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.ProductDataExistsDisabled); }, 500);
+                }
+                else if (data.Transfer == 404)
+                {
+                    window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.ProductNotFound); }, 500);
+                }
+                else
+                {
+                    setError("dialogAlert", "", ThisPage, "contentDelete:deleteuser:data.Transfer:" + data.Transfer, "DeleteData");
+                }
+            }
+        }).always(function(jqXHR, textStatus, errorThrown)
+        {
+            if (jqXHR.status != undefined)
+            {
+                setError("dialogAlert", "", ThisPage, "contentDelete:deleteuser:jqXHR.status:" + jqXHR.status, "DeleteData");
+            }
+        });
+    }
+    function setResetFilter()
+    {
+        $(".td-filter").each(function()
+        {
+            $(this).removeAttr('style');
+            if ($(this).children(":input")[0].type == "radio")
+            {
+                if ($(this).children(":input").prop("checked") == true)
+                {
+                    $(this).css({ "background-color": "#f0ad4e;" });
+                }
+            }
+        });
+    }
+    function getFilterStatusChecked()
+    {
+        var _SelectedFilterStatus = $('input[name=FilterStatus]:checked');
+        return $(_SelectedFilterStatus).attr("data-filterstatus")
+    }
+    function changeProductCategoryStatus(SelectedId)
+    {
+        showBackground();
+        var _OutputElements = {};
+        var _ObjProductData = {};
+        
+        _OutputElements["TransferType"] = "updateproductcategorystatus";        
+        _ObjProductData.ProduktId = Number(SelectedId);
         _OutputElements["ProductData"] = _ObjProductData;
 
         $.ajaxSetup({ cache: false });
@@ -388,7 +372,7 @@
             {
                 if (data.Transfer == 200)
                 {
-                    getPage('/admin/products/index.html');
+                    getPage('/admin/products/productcategory/index.html');
                 }
                 else if (data.Transfer == 404)
                 {
@@ -408,55 +392,6 @@
             }
         });
     }
-
-    function contentDelete(SelectedId)
-    {
-            //showBackground();
-            var _OutputElements = {};
-            var _ObjProductData = {};
-            _ObjProductData.ProduktId = Number(SelectedId);
-            _OutputElements["TransferType"] = "deleteproduct";
-            _OutputElements["ProductData"] = _ObjProductData;
-
-            $.ajaxSetup({ cache: false });
-            $.ajax(
-            {
-                url: "/api/admin/productcrud",
-                type: "POST",
-                dataType: "json",
-                data: JSON.stringify(_OutputElements),
-                contentType: "application/json; charset=utf-8",
-                timeout: 15000
-            }).done(function(data, textStatus, jqXHR)
-            {
-                if (jqXHR.status == 200)
-                {
-                    if (data.Transfer == 200)
-                    {                        
-                        getPage('/admin/products/index.html');
-                    }
-                    else if (data.Transfer == 403)
-                    {
-                        window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.ProductDataExistsDisabled); }, 500);
-                    }
-                    else if (data.Transfer == 404)
-                    {
-                        window.setTimeout(function() { modalStandardAlert(SingleDefaultElements.errorDialogAlertTitle, SingleElements.ProductNotFound); }, 500);
-                    }
-                    else
-                    {                        
-                        setError("dialogAlert", "", ThisPage, "contentDelete:deleteuser:data.Transfer:" + data.Transfer, "DeleteData");
-                    }
-                }
-            }).always(function(jqXHR, textStatus, errorThrown)
-            {
-                if (jqXHR.status != undefined)
-                {
-                        setError("dialogAlert", "", ThisPage, "contentDelete:deleteuser:jqXHR.status:" + jqXHR.status, "DeleteData");
-                }
-            });
-    }
-
 </script>
 
 <form id="frmProductsReg">
@@ -477,7 +412,7 @@
                                             <td class="divider"></td>
                                             <td><button type="button" class="btn btn-danger btn-xs btn-block btn-shadow" id="cmdResetFilter"></button></td>
                                             <td class="divider"></td>
-                                            <td><button type="button" class="btn btn-primary btn-block btn-xs btn-shadow" id="cmdAddNewProduct"><i class="fa fa-pencil-square-o fa-lg fa-fw au-all-marginRight-4px"></i></button></td>
+                                            <td><button type="button" class="btn btn-primary btn-block btn-xs btn-shadow" id="cmdAddNew"><i class="fa fa-pencil-square-o fa-lg fa-fw au-all-marginRight-4px"></i></button></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -512,15 +447,9 @@
                                             <div class="panel-body">
 
                                                 <fieldset class="fieldset-level-group fau-all-padding-7px">
-                                                    <legend id="labelLegendProductFilter"></legend>
+                                                    <legend id="labelLegendFilter"></legend>
 
-                                                    <table class="table-levo2 td-padding4-bottom">
-                                                        <tr>
-                                                            <td class="labelProductType"></td>
-                                                        </tr>                                                        
-                                                        <tr>                                                            
-                                                            <td class="td-filter"><select id="ProductTypeId" class="form-control input-sm"></select></td>
-                                                        </tr>
+                                                    <table class="table-levo2 td-padding4-bottom">                                                        
                                                         <tr>
                                                             <td class="fau-all-paddingTop-4px" id="labelSearchText"></td>
                                                         </tr>
@@ -530,16 +459,16 @@
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td id="labelProductStatus"></td>
+                                                            <td id="labelFilterStatus"></td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <table>
                                                                     <tr>
-                                                                        <td class="fau-all-paddingRight-7px" id="labelProductStatusAktive"></td>
-                                                                        <td align="center"><div class="td-filter fau-all-width-22px fau-all-height-22px"><input data-productstatus="1" class="chkProductStatus" type="radio" name="ProductStatus"></div></td>
-                                                                        <td class="fau-all-paddingLeft-7px fau-all-paddingRight-7px" id="labelProductStatusDisabled"></td>
-                                                                        <td align="center"><div class="td-filter fau-all-width-22px fau-all-height-22px"><input data-productstatus="0" class="chkProductStatus" type="radio" name="ProductStatus"></div></td>
+                                                                        <td class="fau-all-paddingRight-7px" id="labelFilterStatusAktive"></td>
+                                                                        <td align="center"><div class="td-filter fau-all-width-22px fau-all-height-22px"><input data-filterstatus="1" class="chkFilterStatus" type="radio" name="FilterStatus"></div></td>
+                                                                        <td class="fau-all-paddingLeft-7px fau-all-paddingRight-7px" id="labelFilterStatusDisabled"></td>
+                                                                        <td align="center"><div class="td-filter fau-all-width-22px fau-all-height-22px"><input data-filterstatus="0" class="chkFilterStatus" type="radio" name="FilterStatus"></div></td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
@@ -569,16 +498,16 @@
                                                         <td width="10px"></td>
                                                         <td width="60px" align="center"><i class="fa fa-picture-o fa-lg fa-fw"></i></td>
                                                         <td class="divider"></td>
-                                                        <td width="100px" class="header" id="labelProductName"></td>
+                                                        <td width="100px" class="header" id="labelProductCategoryNr"></td>
                                                         <td class="divider"></td>
                                                         <td class="header" id="labelProductCategory"></td>
                                                         <td class="divider"></td>
-                                                        <td width="120px" id="labelAdvertisingSlider"></td>
-                                                        <td class="divider"></td>
-                                                        <td width="120px" id="labelShowWeb"></td>
-                                                        <td class="divider"></td>
-                                                        <td width="120px" id="labelShowStore"></td>
-                                                        <td class="divider"></td>
+                                                        <td width="120px" id=""></td>
+                                                        <td></td>
+                                                        <td width="120px" id=""></td>
+                                                        <td></td>
+                                                        <td width="120px" id=""></td>
+                                                        <td></td>
                                                         <td width="60px" align="center" id="labelEdit"></td>
                                                         <td width="5px"></td>
                                                         <td width="60px" align="center" id="labelStatus"></td>

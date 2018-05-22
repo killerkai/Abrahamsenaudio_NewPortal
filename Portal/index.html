@@ -10,17 +10,18 @@
     <meta name="apple-touch-fullscreen" content="yes" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="format-detection" content="email=no" />
-    <title></title>
+    <title id="labelPageTitle"></title>
     <script type="text/javascript" src="/lib/js/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="/lib/js/levo2-functionlib.js"></script>
     <script type="text/javascript" src="/lib/js/levo2-validation.js"></script>
     <script type="text/javascript" src="/lib/languages/default.js"></script>
     <script type="text/javascript" src="/lib/plugins/bootstrap/js/bootstrap.min.js"></script>
     <link rel="shortcut icon" href="/lib/icons/favicon.ico" type="image/x-icon" />
-    <link rel="icon" href="/lib/icons/favicon.ico" type="image/x-icon">    
+    <link rel="icon" href="/lib/icons/favicon.ico" type="image/x-icon">
     <link type="text/css" rel="stylesheet" href="/lib/plugins/bootstrap/css/bootstrap.min.css">
     <link type="text/css" rel="stylesheet" href="/lib/plugins/font-awesome/css/font-awesome.min.css">
     <link type="text/css" rel="stylesheet" href="/lib/plugins/flick/jquery-ui.min.css">
+    <link type="text/css" rel="stylesheet" href="lib/css/admin/default.css" />
 
     <script type="text/javascript">
 <!--
@@ -47,7 +48,7 @@
     var ThisLocation = location.hostname;
 
     $(document).ready(function()
-    {        
+    {
         ArrayPageSize = new Array($(window).width(), $(window).height(), $(window).scrollTop(), $(window).scrollLeft());
         $(window).resize(function()
         {
@@ -78,7 +79,7 @@
     function getContentData()
     {
         var _CookieLanguage = getCookie(ThisLocation + "-language");
-        if (_CookieLanguage != "" || _CookieLanguage != undefined)
+        if (_CookieLanguage != "")
         {
             ThisLanguage = _CookieLanguage;
         }
@@ -145,7 +146,7 @@ function setContentInfo()
     $("#AppVersion").text(AppVersion);
     $("#AppVersionCode").text(AppVersionCode);
     formdirty = false;
-    setValidation();    
+    setValidation();
     FormStyle("#frmSignIn");
     FormStyle("#frmUsernamePassword");
 }
@@ -205,14 +206,14 @@ function validateSignIn()
                 "Authorization": "Basic " + btoa(_ObjForm.Username + ":" + _ObjForm.Password)
             }
         }).done(function(data, textStatus, jqXHR)
-        {        
+        {
 
             if (jqXHR.status == 200)
             {
-                
+
                 if (data.Transfer == 200)
-                {                    
-                    window.location.href = "/" + data.UserType.toLowerCase();                     
+                {
+                    window.location.href = "/" + data.UserType.toLowerCase();
                 }
                 else
                 {
@@ -223,7 +224,7 @@ function validateSignIn()
         {
             hideBackground();
             if (jqXHR.status == 404)
-            {                
+            {
                 $("#signinInfo").text(SingleElements.signinErrorWrongUsernamePassword).removeClass('alert-info').addClass('alert-danger');
             }
             else if (jqXHR.status != undefined)
@@ -237,7 +238,7 @@ function validateSignIn()
 function validateUsernamePassword()
 {
     var _ObjForm = serializeForm('#frmUsernamePassword');
-    
+
 }
 function adjustStyle(width)
 {
@@ -310,7 +311,7 @@ function adjustStyle(width)
             background-color: #ebebeb;
             border-radius: 35px;
             box-shadow: 10px 10px 5px #d9d9d9;
-        }       
+        }
     </style>
 </head>
 <body>
@@ -330,7 +331,7 @@ function adjustStyle(width)
             <div class="col-sm-12">
                 <p class="text-center">PORTAL</p>
             </div>
-        </div>        
+        </div>
         <div class="row">
             <div class="col-sm-4 col-centered">
                 <div class="account-wall">
@@ -388,46 +389,46 @@ function adjustStyle(width)
                             </div>
                         </form>
                     </div>
-                        <div id="forgot" class="row" style="display: none;">
-                            <div class="row">
-                                <div class="col-sm-12">&nbsp;</div>
-                            </div>
-                            <div class="row">
-                                <div class="col-sm-12">&nbsp;</div>
-                            </div>
-                            <div class="col-sm-12">
-                                <form id="frmUsernamePassword">
-                                    <div class="row">
-                                        <div class="col-sm-12">
-                                            <p class="alert alert-info text-center fau-all-padding-5px btn-shadow" role="alert" id="forgotUPInfo"></p>
+                    <div id="forgot" class="row" style="display: none;">
+                        <div class="row">
+                            <div class="col-sm-12">&nbsp;</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-12">&nbsp;</div>
+                        </div>
+                        <div class="col-sm-12">
+                            <form id="frmUsernamePassword">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <p class="alert alert-info text-center fau-all-padding-5px btn-shadow" role="alert" id="forgotUPInfo"></p>
+                                    </div>
+                                </div>
+
+                                <div class="row fau-all-marginBottom-21px">
+                                    <div class="col-sm-12">
+                                        <label for="Email" style="display: none;"></label>
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
+                                            <input id="Email" type="text" class="form-control">
                                         </div>
                                     </div>
-
-                                    <div class="row fau-all-marginBottom-21px">
-                                        <div class="col-sm-12">
-                                            <label for="Email" style="display: none;"></label>
-                                            <div class="input-group">
-                                                <span class="input-group-addon"><i class="fa fa-envelope fa-fw"></i></span>
-                                                <input id="Email" type="text" class="form-control">
-                                            </div>
-                                        </div>
+                                </div>
+                                <div class="row">&nbsp;</div>
+                                <div class="row fau-all-marginBottom-42px">
+                                    <div class="col-sm-6 fau-xs-marginBottom-7px">
+                                        <button type="button" class="btn btn-sm btn-success btn-shadow btn-block" id="cmdUsernamePassword"></button>
                                     </div>
-                                    <div class="row">&nbsp;</div>                                    
-                                    <div class="row fau-all-marginBottom-42px">
-                                        <div class="col-sm-6 fau-xs-marginBottom-7px">
-                                            <button type="button" class="btn btn-sm btn-success btn-shadow btn-block" id="cmdUsernamePassword"></button>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <button type="button" class="btn btn-sm btn-primary btn-shadow btn-block" id="cmdReturnToSignIn"></button>
-                                        </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="btn btn-sm btn-primary btn-shadow btn-block" id="cmdReturnToSignIn"></button>
                                     </div>
+                                </div>
 
-                                </form>
+                            </form>
 
-                            </div>
                         </div>
                     </div>
-                
+                </div>
+
 
                 <div class="row">
                     <div class="col-xs-12 col-sm-3">&nbsp;</div>
@@ -461,7 +462,8 @@ function adjustStyle(width)
                 </div>
             </div>
         </div>
-    </div> <!-- /container -->
+    </div>
+
     <div class="modal fade" id="modalStandard">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -474,12 +476,6 @@ function adjustStyle(width)
             </div>
         </div>
     </div>
-    <!-- Template -->
-    <link href="lib/css/admin/default.css" rel="stylesheet" />
-    <!-- End Template -->
-
-
 
 </body>
-
 </html>

@@ -14,43 +14,36 @@
   "Produkt": {
     "label": "mandatory",
     "data-attr": "val",
-    "minlength": "3",
-    "maxlength": "20",
     "class": "validate validate-alpha",
     "datatype": "string"
   },
   "Pris": {
     "label": "optional",
     "data-attr": "val",
-    "maxlength": "8",
     "class": "validate validate-alpha",
-    "datatype": "int"
+    "datatype": "string"
   },
   "Bredde": {
     "label": "optional",
     "data-attr": "val",
-    "maxlength": "10",
     "class": "validate validate-alpha",
     "datatype": "string"
   },
   "Hoyde": {
     "label": "optional",
     "data-attr": "val",
-    "maxlength": "10",
     "class": "validate validate-alpha",
     "datatype": "string"
   },
   "Dybde": {
     "label": "optional",
     "data-attr": "val",
-    "maxlength": "10",
     "class": "validate validate-alpha",
     "datatype": "string"
   },
   "Vekt": {
     "label": "optional",
     "data-attr": "val",
-    "maxlength": "10",
     "class": "validate validate-alpha",
     "datatype": "string"
   },
@@ -60,7 +53,25 @@
     "class": "validate validate-alpha",
     "datatype": "string"
   },
+  "LagerDato": {
+    "label": "optional",
+    "data-attr": "val",
+    "class": "validate validate-date nopastdate readonly",
+    "datatype": "date"
+  },
   "AddOns": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "newAddOnVal": {
+    "label": "mandatory",
+    "data-attr": "val",
+    "class": "validate validate-alpha",
+    "datatype": "string"
+  },
+  "newAddOnName": {
     "label": "mandatory",
     "data-attr": "val",
     "class": "validate validate-alpha",
